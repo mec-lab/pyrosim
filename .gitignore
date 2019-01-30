@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# python stuff
+*.egg-info/
+*__pycach__/
+
+# ignore build folder
+pyrosim/simulator/build/
+
+pyrosim/simulator/external/ode-0.12/
