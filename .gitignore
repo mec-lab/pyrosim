@@ -33,7 +33,8 @@
 
 # python stuff
 *.egg-info/
-*__pycach__/
+*__pycache__/
+*.pyc
 
 # ignore build folder
 pyrosim/simulator/build/
