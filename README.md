@@ -2,7 +2,7 @@
 
 Pyrosim enables the creation of robots with arbitrary body plans
 and neural controllers, and the optimization of them in arbitrary simulated
-environments. <!-- [Read the Docs](https://ccappelle.github.io/pyrosim) -->
+environments. Visit the [Documentation](https://mec-lab.github.io/pyrosim) for more detailed information.
 
 ## Installation instructions.
 
