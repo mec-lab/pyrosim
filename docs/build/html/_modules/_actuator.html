@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>_actuator &mdash; pyrosim 0.1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyrosim
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrosim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>_actuator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for _actuator</h1><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">Mixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_send_actuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends entity categorized as Actuator&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_entity</span><span class="p">(</span><span class="s1">&#39;Actuator&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">send_rotary_actuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                             <span class="n">joint_id</span><span class="p">,</span>
+                             <span class="n">max_force</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                             <span class="n">control</span><span class="o">=</span><span class="s1">&#39;positional&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends a rotary actuator to acto on a hinge joint</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        joint_id  : int</span>
+<span class="sd">            The id tag of the hinge joint to motorize</span>
+<span class="sd">        max_force : float (optional)</span>
+<span class="sd">            The maximum amount of torque the joint can use to move.</span>
+<span class="sd">            A negative value indicates infinite possible torque.</span>
+<span class="sd">            (default is infinite)</span>
+<span class="sd">        speed     : float (optional)</span>
+<span class="sd">            The speed multiplier used in actuation. (default is 1)</span>
+<span class="sd">        control   : str (optional)</span>
+<span class="sd">            There are two control schemes: &#39;positional&#39; and &#39;velocity&#39;.</span>
+<span class="sd">            *positional* indicates the value inputed dictates which angle</span>
+<span class="sd">            the motor should move to. *velocity* indicates the value inputed</span>
+<span class="sd">            should specify the velocity of actuation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the actuator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_joint</span><span class="p">(</span><span class="n">joint_id</span><span class="p">,</span> <span class="s1">&#39;joint_id&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">speed</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Speed must be a positive number&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_actuator</span><span class="p">(</span><span class="s1">&#39;RotaryActuator&#39;</span><span class="p">,</span>
+                                    <span class="n">joint_id</span><span class="p">,</span>
+                                    <span class="n">max_force</span><span class="p">,</span>
+                                    <span class="n">speed</span><span class="p">,</span>
+                                    <span class="n">control</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_linear_actuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                             <span class="n">joint_id</span><span class="p">,</span>
+                             <span class="n">max_force</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                             <span class="n">control</span><span class="o">=</span><span class="s1">&#39;positional&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends a linear actuator to acto on a slider joint</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        joint_id  : int</span>
+<span class="sd">            The id tag of the slider joint to motorize</span>
+<span class="sd">        max_force : float (optional)</span>
+<span class="sd">            The maximum amount of force the joint can use to move.</span>
+<span class="sd">            A negative value indicates infinite possible force.</span>
+<span class="sd">            (default is infinite)</span>
+<span class="sd">        speed     : float (optional)</span>
+<span class="sd">            The speed multiplier used in actuation. (default is 1)</span>
+<span class="sd">        control   : str (optional)</span>
+<span class="sd">            There are two control schemes: &#39;positional&#39; and &#39;velocity&#39;.</span>
+<span class="sd">            *positional* indicates the value inputed dictates which position</span>
+<span class="sd">            the motor should move to. *velocity* indicates the value inputed</span>
+<span class="sd">            should specify the velocity of actuation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the actuator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_joint</span><span class="p">(</span><span class="n">joint_id</span><span class="p">,</span> <span class="s1">&#39;joint_id&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_actuator</span><span class="p">(</span><span class="s1">&#39;LinearActuator&#39;</span><span class="p">,</span>
+                                    <span class="n">joint_id</span><span class="p">,</span>
+                                    <span class="n">max_force</span><span class="p">,</span>
+                                    <span class="n">speed</span><span class="p">,</span>
+                                    <span class="n">control</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_thruster</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                     <span class="n">body_id</span><span class="p">,</span>
+                     <span class="n">force_range</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">),</span>
+                     <span class="n">direction</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Sends a thruster to a body.</span>
+
+<span class="sd">        Thrusters act as forces pushing on the center of mass in the specified</span>
+<span class="sd">        `direction`.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body_id     : int</span>
+<span class="sd">            The id tag of the body to connect to.</span>
+<span class="sd">        force_range : float tuple (optional)</span>
+<span class="sd">            A tuple which specifies the low and high range of force</span>
+<span class="sd">            used to apply to the attached body. (default is (0, 10))</span>
+<span class="sd">        direction   : float triple (optional)</span>
+<span class="sd">            The direction the force should be applied. For example,</span>
+<span class="sd">            if you want the thruster to move the body upward you would</span>
+<span class="sd">            set `direction` to be upward, i.e. `direction = (0, 0, 1)`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the thruster</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">force_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;force_range must be a tuple&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;direction must be a triple&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;body_id&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_actuator</span><span class="p">(</span><span class="s1">&#39;ThrusterActuator&#39;</span><span class="p">,</span>
+                                    <span class="n">body_id</span><span class="p">,</span>
+                                    <span class="n">force_range</span><span class="p">,</span>
+                                    <span class="n">direction</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Collin Cappelle, Josh Bongard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

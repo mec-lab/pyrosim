@@ -1,0 +1,587 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>_body &mdash; pyrosim 0.1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyrosim
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrosim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>_body</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for _body</h1><div class="highlight"><pre>
+<span></span><span class="c1"># specialized class designed to be Mixin to pyrosim.py</span>
+<span class="c1"># Contains all send and add functions related to bodies,</span>
+<span class="c1"># geoms, physical things, etc.</span>
+
+<span class="k">class</span> <span class="nc">Mixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_send_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends an entity categorized as Body&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_entity</span><span class="p">(</span><span class="s1">&#39;Body&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_impulse_to_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                            <span class="n">body_id</span><span class="p">,</span>
+                            <span class="n">force</span><span class="p">,</span>
+                            <span class="n">time_step</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Adds an impulse force to a body at specified time step</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body_id   : int</span>
+<span class="sd">            The id tag of the target body</span>
+<span class="sd">        force     : triple float</span>
+<span class="sd">            The force vector to apply</span>
+<span class="sd">        time_step : int (optional)</span>
+<span class="sd">            The tme step to apply the specified force</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;body_id&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">force</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Force must be size 3&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">time_step</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;time_step must be &gt;= 0&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_add_command</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span>
+                               <span class="s1">&#39;Impulse&#39;</span><span class="p">,</span>
+                               <span class="n">time_step</span><span class="p">,</span>
+                               <span class="n">force</span>
+                               <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_box_to_composite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                         <span class="n">composite_id</span><span class="p">,</span>
+                         <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                         <span class="n">orientation</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                         <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span>
+                         <span class="n">density</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                         <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Adds box geometry to a composite body</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        composite_id : int</span>
+<span class="sd">            The id tag of the target composite body</span>
+<span class="sd">        position     : triple float (optional)</span>
+<span class="sd">            The global position of the body. (default [0, 0, 0])</span>
+<span class="sd">        orientation  : triple float (optional)</span>
+<span class="sd">            The gloabl orientation of the body. (default [0, 0, 1])</span>
+<span class="sd">        sides        : triple float (optional)</span>
+<span class="sd">            The length, width, and height of the body. (default [.25, .25, .25])</span>
+<span class="sd">        density      : float (optional)</span>
+<span class="sd">            The density of the body</span>
+<span class="sd">        color        : triple float (optional)</span>
+<span class="sd">            Color of the body. (default is [1, 1, 1])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span> <span class="s1">&#39;composite_id&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_add_command</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span>
+                               <span class="s1">&#39;Geom&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;Box&#39;</span><span class="p">,</span> 
+                               <span class="n">position</span><span class="p">,</span>
+                               <span class="n">orientation</span><span class="p">,</span>
+                               <span class="n">sides</span><span class="p">,</span>
+                               <span class="n">density</span><span class="p">,</span>
+                               <span class="n">color</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_cylinder_to_composite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">composite_id</span><span class="p">,</span>
+                                  <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                                  <span class="n">orientation</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                                  <span class="n">length</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                  <span class="n">radius</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                  <span class="n">capped</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                  <span class="n">density</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                                  <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Adds cylinder geometry to a composite body</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        composite_id : int</span>
+<span class="sd">            The id tag of the target composite body</span>
+<span class="sd">        position     : triple float (optional)</span>
+<span class="sd">            The global position of the body. (default [0, 0, 0])</span>
+<span class="sd">        orientation  : triple float (optional)</span>
+<span class="sd">            The gloabl orientation of the body. (default [0, 0, 1])</span>
+<span class="sd">        length       : float (optional)</span>
+<span class="sd">            The length of the long axis of the cylinder. (default 0.5)</span>
+<span class="sd">        radius       : float (optional)</span>
+<span class="sd">            The radius of the cylinder. (default 0.05)</span>
+<span class="sd">        capped       : boolean (optional)</span>
+<span class="sd">            If true, the cylinder has rounded edges. If false, the cylinder</span>
+<span class="sd">            has flat edges. (default True)</span>
+<span class="sd">        density      : float (optional)</span>
+<span class="sd">            The density of the body</span>
+<span class="sd">        color        : triple float (optional)</span>
+<span class="sd">            Color of the body. (default is [1, 1, 1])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span> <span class="s1">&#39;composite_id&#39;</span><span class="p">)</span>
+        <span class="n">capped</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">capped</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_add_command</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span>
+                               <span class="s1">&#39;Geom&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;Cylinder&#39;</span><span class="p">,</span>
+                               <span class="n">position</span><span class="p">,</span>
+                               <span class="n">orientation</span><span class="p">,</span>
+                               <span class="n">length</span><span class="p">,</span>
+                               <span class="n">radius</span><span class="p">,</span>
+                               <span class="n">capped</span><span class="p">,</span>
+                               <span class="n">density</span><span class="p">,</span>
+                               <span class="n">color</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_sphere_to_composite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                <span class="n">composite_id</span><span class="p">,</span>
+                                <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                                <span class="n">orientation</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                                <span class="n">radius</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+                                <span class="n">density</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                                <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span> <span class="s1">&#39;composite_id&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_add_command</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span>
+                               <span class="s1">&#39;Geom&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;Sphere&#39;</span><span class="p">,</span>
+                               <span class="n">position</span><span class="p">,</span>
+                               <span class="n">orientation</span><span class="p">,</span>
+                               <span class="n">radius</span><span class="p">,</span>
+                               <span class="n">density</span><span class="p">,</span>
+                               <span class="n">color</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;Adds sphere geometry to a composite body</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        composite_id : int</span>
+<span class="sd">            The id tag of the target composite body</span>
+<span class="sd">        position     : triple float (optional)</span>
+<span class="sd">            The global position of the body. (default [0, 0, 0])</span>
+<span class="sd">        orientation  : triple float (optional)</span>
+<span class="sd">            The gloabl orientation of the body. (default [0, 0, 1])</span>
+<span class="sd">        radius       : float (optional)</span>
+<span class="sd">            The radius of the sphere. (default 0.25)</span>
+<span class="sd">        density      : float (optional)</span>
+<span class="sd">            The density of the body</span>
+<span class="sd">        color        : triple float (optional)</span>
+<span class="sd">            Color of the body. (default is [1, 1, 1])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">send_ray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">body_id</span><span class="p">,</span>
+                 <span class="n">position</span><span class="p">,</span>
+                 <span class="n">orientation</span><span class="p">,</span>
+                 <span class="n">max_length</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;composite_id&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_body</span><span class="p">(</span><span class="s1">&#39;Ray&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                 <span class="n">orientation</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                 <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span>
+                 <span class="n">density</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                 <span class="n">space</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">collision_group</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a box geometry to the simulator</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        position        : triple float (optional)</span>
+<span class="sd">            The global position of the body. (default [0, 0, 0])</span>
+<span class="sd">        orientation     : triple float (optional)</span>
+<span class="sd">            The gloabl orientation of the body. (default [0, 0, 1])</span>
+<span class="sd">        sides           : triple float (optional)</span>
+<span class="sd">            The length, width, and height of the body. (default [.25, .25, .25])</span>
+<span class="sd">        density         : float (optional)</span>
+<span class="sd">            The density of the body</span>
+<span class="sd">        color           : triple float (optional)</span>
+<span class="sd">            Color of the body. (default is [1, 1, 1])</span>
+<span class="sd">        space           : str (optional)</span>
+<span class="sd">            The string name of the space in which to place the body.</span>
+<span class="sd">            (default is to use the string set by :func:`set_current_space()` function)</span>
+<span class="sd">        collision_group : str (optional)</span>
+<span class="sd">            The string name of the collision group in which to place the body.</span>
+<span class="sd">            Collision groups specify how bodies collide. (default is to use</span>
+<span class="sd">            the string set by :func:`set_current_collision_group()` function)</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the box</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">collision_group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">collision_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_collision_group</span>
+
+        <span class="k">if</span> <span class="n">space</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_space</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_body</span><span class="p">(</span><span class="s1">&#39;Box&#39;</span><span class="p">,</span>
+                               <span class="n">position</span><span class="p">,</span>
+                               <span class="n">orientation</span><span class="p">,</span>
+                               <span class="n">sides</span><span class="p">,</span>
+                               <span class="n">density</span><span class="p">,</span>
+                               <span class="n">color</span><span class="p">,</span>
+                               <span class="n">space</span><span class="p">,</span>
+                               <span class="n">collision_group</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_cylinder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                      <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                      <span class="n">orientation</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                      <span class="n">length</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+                      <span class="n">radius</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+                      <span class="n">capped</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                      <span class="n">density</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                      <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                      <span class="n">space</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">collision_group</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a cylinder geometry to the simulator</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        position        : triple float (optional)</span>
+<span class="sd">            The global position of the body. (default [0, 0, 0])</span>
+<span class="sd">        orientation     : triple float (optional)</span>
+<span class="sd">            The gloabl orientation of the body. (default [0, 0, 1])</span>
+<span class="sd">        length       : float (optional)</span>
+<span class="sd">            The length of the long axis of the cylinder. (default 0.5)</span>
+<span class="sd">        radius       : float (optional)</span>
+<span class="sd">            The radius of the cylinder. (default 0.05)</span>
+<span class="sd">        capped       : boolean (optional)</span>
+<span class="sd">            If true, the cylinder has rounded edges. If false, the cylinder</span>
+<span class="sd">            has flat edges. (default True)</span>
+<span class="sd">        density         : float (optional)</span>
+<span class="sd">            The density of the body</span>
+<span class="sd">        color           : triple float (optional)</span>
+<span class="sd">            Color of the body. (default is [1, 1, 1])</span>
+<span class="sd">        space           : str (optional)</span>
+<span class="sd">            The string name of the space in which to place the body.</span>
+<span class="sd">            (default is to use the string set by :func:`set_current_space()` function)</span>
+<span class="sd">        collision_group : str (optional)</span>
+<span class="sd">            The string name of the collision group in which to place the body.</span>
+<span class="sd">            Collision groups specify how bodies collide. (default is to use</span>
+<span class="sd">            the string set by :func:`set_current_collision_group()` function)</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the cylinder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">collision_group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">collision_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_collision_group</span>
+
+        <span class="k">if</span> <span class="n">space</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_space</span>
+
+        <span class="n">capped</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">capped</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_body</span><span class="p">(</span><span class="s1">&#39;Cylinder&#39;</span><span class="p">,</span>
+                               <span class="n">position</span><span class="p">,</span>
+                               <span class="n">orientation</span><span class="p">,</span>
+                               <span class="n">length</span><span class="p">,</span>
+                               <span class="n">radius</span><span class="p">,</span>
+                               <span class="n">capped</span><span class="p">,</span>
+                               <span class="n">density</span><span class="p">,</span>
+                               <span class="n">color</span><span class="p">,</span>
+                               <span class="n">space</span><span class="p">,</span>
+                               <span class="n">collision_group</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_composite_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">collision_group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a composite body base</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        space           : str (optional)</span>
+<span class="sd">            The string name of the space in which to place the body.</span>
+<span class="sd">            (default is to use the string set by :func:`set_current_space()` function)</span>
+<span class="sd">        collision_group : str (optional)</span>
+<span class="sd">            The string name of the collision group in which to place the body.</span>
+<span class="sd">            Collision groups specify how bodies collide. (default is to use</span>
+<span class="sd">            the string set by :func:`set_current_collision_group()` function)</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the composite body</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">collision_group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">collision_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_collision_group</span>
+
+        <span class="k">if</span> <span class="n">space</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_space</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_body</span><span class="p">(</span><span class="s1">&#39;Composite&#39;</span><span class="p">,</span>
+                               <span class="n">space</span><span class="p">,</span>
+                               <span class="n">collision_group</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_height_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height_matrix</span><span class="p">,</span>
+                        <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                        <span class="n">size</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+                        <span class="n">height_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a height map to the simulator</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        height_matrix : 2D numpy matrix</span>
+<span class="sd">            A matrix filled in with the height (z) values. Each dimension</span>
+<span class="sd">            must be at least size 2</span>
+<span class="sd">        position      : triple float (optional)</span>
+<span class="sd">            The center position of the height map. (default is [0, 0, 0])</span>
+<span class="sd">        size          : float, tuple float (optional)</span>
+<span class="sd">            The length of each side. When a singular value, height map is</span>
+<span class="sd">            a square. (default is (10, 10))</span>
+<span class="sd">        height_scale  : float (optional)</span>
+<span class="sd">            Height multiplier. (default is 1.0)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">height_matrix</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">height_vec</span> <span class="o">=</span> <span class="n">height_matrix</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_entity</span><span class="p">(</span><span class="s1">&#39;Entity&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;HeightMap&#39;</span><span class="p">,</span>
+                                  <span class="n">position</span><span class="p">,</span>
+                                  <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span>
+                                  <span class="n">height_vec</span><span class="p">,</span>
+                                  <span class="n">size</span><span class="p">,</span>
+                                  <span class="n">height_scale</span><span class="p">,</span>
+                                  <span class="mf">0.0</span><span class="p">,</span> <span class="c1"># offset (unecessary with position)</span>
+                                  <span class="mf">1.0</span><span class="p">,</span> <span class="c1"># min aabb thickness</span>
+                                  <span class="mi">0</span><span class="p">,</span> <span class="c1"># infinite wrap, not implemented</span>
+                                  <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                    <span class="n">orientation</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                    <span class="n">radius</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
+                    <span class="n">density</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                    <span class="n">space</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">collision_group</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a sphere geometry to the simulator</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        position        : triple float (optional)</span>
+<span class="sd">            The global position of the body. (default [0, 0, 0])</span>
+<span class="sd">        orientation     : triple float (optional)</span>
+<span class="sd">            The gloabl orientation of the body. (default [0, 0, 1])</span>
+<span class="sd">        radius       : float (optional)</span>
+<span class="sd">            The radius of the sphere. (default 0.25)</span>
+<span class="sd">        density         : float (optional)</span>
+<span class="sd">            The density of the body</span>
+<span class="sd">        color           : triple float (optional)</span>
+<span class="sd">            Color of the body. (default is [1, 1, 1])</span>
+<span class="sd">        space           : str (optional)</span>
+<span class="sd">            The string name of the space in which to place the body.</span>
+<span class="sd">            (default is to use the string set by :func:`set_current_space()` function)</span>
+<span class="sd">        collision_group : str (optional)</span>
+<span class="sd">            The string name of the collision group in which to place the body.</span>
+<span class="sd">            Collision groups specify how bodies collide. (default is to use</span>
+<span class="sd">            the string set by :func:`set_current_collision_group()` function)</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the shpere</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">collision_group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">collision_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_collision_group</span>
+
+        <span class="k">if</span> <span class="n">space</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_space</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_body</span><span class="p">(</span><span class="s1">&#39;Sphere&#39;</span><span class="p">,</span>
+                               <span class="n">position</span><span class="p">,</span>
+                               <span class="n">orientation</span><span class="p">,</span>
+                               <span class="n">radius</span><span class="p">,</span>
+                               <span class="n">density</span><span class="p">,</span>
+                               <span class="n">color</span><span class="p">,</span>
+                               <span class="n">space</span><span class="p">,</span>
+                               <span class="n">collision_group</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Collin Cappelle, Josh Bongard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

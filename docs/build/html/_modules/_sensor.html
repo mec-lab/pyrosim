@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>_sensor &mdash; pyrosim 0.1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyrosim
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrosim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>_sensor</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for _sensor</h1><div class="highlight"><pre>
+<span></span>
+<span class="k">class</span> <span class="nc">Mixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_send_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_entity</span><span class="p">(</span><span class="s1">&#39;Sensor&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="c1"># ------------ POSITION SENSOR -----------------------------</span>
+    <span class="k">def</span> <span class="nf">send_position_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send position sensor which tracks the body specified in body_id</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body_id         : int</span>
+<span class="sd">            The id tag of the specifed body</span>
+<span class="sd">        which_dimension : str or int (optional)</span>
+<span class="sd">            Specifies which dimension to track: &#39;x&#39;, &#39;y&#39;, or &#39;z&#39;.</span>
+<span class="sd">            You can also use 0, 1, or 2. (default is &#39;x&#39;)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the sensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">which_dimension</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
+            <span class="n">which_dimension</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">which_dimension</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+            <span class="n">which_dimension</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">which_dimension</span> <span class="o">==</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span>
+            <span class="n">which_dimension</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">which_dimension</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">assert</span> <span class="n">which_dimension</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">which_dimension</span> <span class="o">&lt;=</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Which dimension must be x, y, or z&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;body_id&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;PositionSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_position_x_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send x position sensor which tracks the body specified in *body_id*&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_position_y_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send y position sensor which tracks the body specified in *body_id*&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_position_z_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send z position sensor which tracks the body specified in *body_id*&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
+
+    <span class="c1"># ----------- RAY SENSOR ------------------------------------</span>
+    <span class="k">def</span> <span class="nf">send_ray_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends a ray sensor to the simulator.</span>
+
+<span class="sd">        Ray sensors connect to ray entities. They can return the distance</span>
+<span class="sd">        to this object or the color of this object (r, g, b).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ray_id      :  int</span>
+<span class="sd">            The id tag of the ray to attach to.</span>
+<span class="sd">        which_sense : str or int (optional)</span>
+<span class="sd">            Specifies which sense of the ray to return.</span>
+<span class="sd">            Use &#39;d&#39; for distance, &#39;r&#39; for red, &#39;g&#39; for green, &#39;b&#39; for blue.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            the id tag of the sensor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span>
+            <span class="n">which_sense</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+            <span class="n">which_sense</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span>
+            <span class="n">which_sense</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span>
+            <span class="n">which_sense</span> <span class="o">=</span> <span class="mi">3</span>
+
+        <span class="k">assert</span> <span class="n">which_sense</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">which_sense</span> <span class="o">&lt;=</span><span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Which sense must be d, r, g, b or 0, 1, 2, 3&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="s1">&#39;ray_id&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;RaySensor&#39;</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_ray_distance_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_ray_red_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_ray_green_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_ray_blue_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+
+    <span class="c1"># --------------- TOUCH SENSOR -----------------------------------</span>
+    <span class="k">def</span> <span class="nf">send_touch_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attach a touch sensor to a body</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body_id   : int</span>
+<span class="sd">            The id tag of the body to attach the sensor to</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the sensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;TouchSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">)</span>
+
+
+    <span class="c1"># ------------- QUATERNION SENSOR --------------------------------</span>
+    <span class="k">def</span> <span class="nf">send_quaternion_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attach a vestibular sensor returning the quaternion of the body.</span>
+
+<span class="sd">        Quaternions is 4 element vector which can represent the rotation of </span>
+<span class="sd">        a body. It&#39;s components are a, b, c, and d. You can also use</span>
+<span class="sd">        w, x, y, and z. Read more here:</span>
+<span class="sd">        https://en.wikipedia.org/wiki/Quaternion</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span>   <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span> <span class="ow">or</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span>
+            <span class="n">which_sense</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span> <span class="ow">or</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
+            <span class="n">which_sense</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span> <span class="ow">or</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+            <span class="n">which_sense</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span> <span class="ow">or</span> <span class="n">which_sense</span> <span class="o">==</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span>
+            <span class="n">which_sense</span> <span class="o">=</span> <span class="mi">3</span>
+
+        <span class="k">assert</span> <span class="p">(</span><span class="n">which_sense</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">which_sense</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;QuaternionSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_quaternion_a_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_quaternion_b_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_quaternion_c_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_quaternion_d_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_proprioceptive_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attach a proprioceptive sensor to the joint.</span>
+
+<span class="sd">        Proprioceptive sensors return the value of</span>
+<span class="sd">        the joint at each time step. For example, a hinge</span>
+<span class="sd">        joint will return the angle and a slider joint</span>
+<span class="sd">        will return the position offset.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Currently not implemented for universal or ball joints.</span>
+<span class="sd">            Attached proprioceptive sensors will only return 0.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        joint_id    : int</span>
+<span class="sd">            The id tag of the joint to attach the sensor to</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the sensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_joint</span><span class="p">(</span><span class="n">joint_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;ProprioceptiveSensor&#39;</span><span class="p">,</span> <span class="n">joint_id</span><span class="p">)</span>
+
+    <span class="c1"># ----- IS SEEN SENSOR ----------------------------------</span>
+    <span class="k">def</span> <span class="nf">send_is_seen_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attach a sensor to a body which reports a 1 when &#39;seen&#39; by</span>
+<span class="sd">        a ray sensor and a 0 when not &#39;seen&#39;&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body_id</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span> <span class="s1">&#39;IsSeenSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span> <span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Collin Cappelle, Josh Bongard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

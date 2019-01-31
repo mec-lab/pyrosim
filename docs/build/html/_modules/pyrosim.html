@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyrosim &mdash; pyrosim 0.1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyrosim
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrosim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>pyrosim</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyrosim</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="c1"># C.C NOTE: Mixin convention -</span>
+<span class="c1"># mixin files should be named _name.py and</span>
+<span class="c1"># contain one Mixin class labeled Mixin.</span>
+<span class="c1"># see _body.py for more info</span>
+
+
+<span class="c1"># C.C. we can probably remove this after a certain point</span>
+<span class="c1"># this is necessary for being able to run</span>
+<span class="c1"># both as __main__ and as package</span>
+<span class="k">if</span> <span class="n">__package__</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">__package__</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+    <span class="c1"># uses current directory visibility</span>
+    <span class="kn">import</span> <span class="nn">_body</span>
+    <span class="kn">import</span> <span class="nn">_joint</span>
+    <span class="kn">import</span> <span class="nn">_actuator</span>
+    <span class="kn">import</span> <span class="nn">_network</span>
+    <span class="kn">import</span> <span class="nn">_sensor</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># uses current package visibility</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_body</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_joint</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_actuator</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_network</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_sensor</span>
+
+
+<div class="viewcode-block" id="Simulator"><a class="viewcode-back" href="../code.html#pyrosim.Simulator">[docs]</a><span class="k">class</span> <span class="nc">Simulator</span><span class="p">(</span><span class="n">_body</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">_joint</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span>
+                <span class="n">_actuator</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">_network</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span>
+                <span class="n">_sensor</span><span class="o">.</span><span class="n">Mixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Python Interface for ODE robotics simulator</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eval_steps  : int (optional)</span>
+<span class="sd">        Number of simulated steps (default 100)</span>
+<span class="sd">    dt          : float (optional)</span>
+<span class="sd">        Length of simulated time in seconds of each step (default 0.01)</span>
+<span class="sd">    play_blind  : bool (optional)</span>
+<span class="sd">        Run without graphics (default False)</span>
+<span class="sd">    play_paused : bool (optional)</span>
+<span class="sd">        Start simulation paused (default False)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">eval_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                 <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                 <span class="n">play_blind</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">play_paused</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="p">):</span>
+
+        <span class="c1"># location of this file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_this_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+        <span class="c1"># location of simulator executable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulator_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_this_file_path</span><span class="p">,</span> <span class="s1">&#39;simulator/build&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_entities</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_actuators</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># commands to be sent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strings_to_send</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="c1"># playback parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_play_blind</span> <span class="o">=</span> <span class="n">play_blind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_play_paused</span> <span class="o">=</span> <span class="n">play_paused</span>
+
+        <span class="c1"># body parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_space</span> <span class="o">=</span> <span class="s1">&#39;None&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_collision_group</span> <span class="o">=</span> <span class="s1">&#39;None&#39;</span>
+
+        <span class="c1"># sim parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_steps</span> <span class="o">=</span> <span class="n">eval_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dt</span> <span class="o">=</span> <span class="n">dt</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="Simulator.assign_collision"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.assign_collision">[docs]</a>    <span class="k">def</span> <span class="nf">assign_collision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group1</span><span class="p">,</span> <span class="n">group2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Specifies that members of *group1* and *group2* should collide in simulation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group1 : str</span>
+<span class="sd">            String name of group 1</span>
+<span class="sd">        group2  : str</span>
+<span class="sd">            String name of group 2</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if successful</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="s1">&#39;AssignCollision&#39;</span><span class="p">,</span> <span class="n">group1</span><span class="p">,</span> <span class="n">group2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Simulator.set_current_collision_group"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_current_collision_group">[docs]</a>    <span class="k">def</span> <span class="nf">set_current_collision_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the current group name for future bodies to use as default&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_collision_group</span> <span class="o">=</span> <span class="n">group_name</span></div>
+
+<div class="viewcode-block" id="Simulator.set_current_space"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_current_space">[docs]</a>    <span class="k">def</span> <span class="nf">set_current_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the current space name for future bodies to use as default&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_space</span> <span class="o">=</span> <span class="n">space_name</span></div>
+
+<div class="viewcode-block" id="Simulator.set_gravity"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_gravity">[docs]</a>    <span class="k">def</span> <span class="nf">set_gravity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=-</span><span class="mf">9.8</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the gravity for simulation&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityX&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityY&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityZ&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Simulator.set_camera"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_camera">[docs]</a>    <span class="k">def</span> <span class="nf">set_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">hpr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets how the camera starts in simulation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xyz : triple float</span>
+<span class="sd">            Indicates the statring position of the camera</span>
+<span class="sd">        hpr : triple float</span>
+<span class="sd">            Heading, Pitch, and Roll of the camera.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">hpr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">xyz</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">hpr</span>
+
+        <span class="c1"># C.C. parameters oare singular values so </span>
+        <span class="c1"># must write out vectors. May change in the future</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraX&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraY&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraZ&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraH&#39;</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraP&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraR&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">set_friction</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="s1">&#39;Infinite&#39;</span> <span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">mu</span> <span class="o">==</span> <span class="s1">&#39;Infinite&#39;</span><span class="p">:</span>
+            <span class="n">mu</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="k">assert</span> <span class="nb">float</span><span class="p">(</span> <span class="n">mu</span> <span class="p">)</span> <span class="o">==</span> <span class="n">mu</span><span class="p">,</span> <span class="s1">&#39;mu must be Infinite or float&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span> <span class="s1">&#39;Friction&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="p">)</span>
+
+<div class="viewcode-block" id="Simulator.start"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Start the simulation&quot;&quot;&quot;</span>
+
+        <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_play_blind</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_steps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span>
+            <span class="s1">&#39;Cannot infinitely play blind. Change play_blind to False &#39;</span>
+            <span class="s1">&#39;or set eval_steps to a positive number&#39;</span>
+        <span class="p">)</span>
+
+        <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_play_paused</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_play_blind</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span>
+            <span class="s1">&#39;Cannot play blind and paused. Change truth value of play_blind &#39;</span>
+            <span class="s1">&#39;or play_paused&#39;</span>
+        <span class="p">)</span>
+
+        <span class="n">commands</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulator_path</span> <span class="o">+</span> <span class="s1">&#39;/simulator&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_play_blind</span><span class="p">:</span>
+            <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-blind&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_play_paused</span><span class="p">:</span>
+            <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-pause&#39;</span><span class="p">)</span>
+
+        <span class="c1"># create pipe to simulator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+            <span class="n">commands</span><span class="p">,</span>
+            <span class="n">bufsize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># necessary to not halt</span>
+            <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>  <span class="c1"># connects stdout</span>
+            <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>  <span class="c1"># connects stderr</span>
+            <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>  <span class="c1"># connects stdin</span>
+            <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># necessary for 3.x</span>
+            <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulator_path</span><span class="p">,</span>  <span class="c1"># helps with textures</span>
+        <span class="p">)</span>
+        <span class="c1"># write parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_simulator_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_strings_to_send</span><span class="p">)</span>
+        <span class="c1"># finish by writing done</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Done</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="c1"># self.pipe.stdin.close()</span>
+
+<div class="viewcode-block" id="Simulator.wait_to_finish"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.wait_to_finish">[docs]</a>    <span class="k">def</span> <span class="nf">wait_to_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Communicate with pipe once simulation is complete</span>
+
+<span class="sd">        .. note:: for **python 3.x** it is necessary to use this command after `sim.start()`</span>
+<span class="sd">            in order for the simulation to run properly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># for line in iter(self.pipe.stdout.readline, b&#39;&#39;):</span>
+        <span class="c1">#     # print(line)</span>
+        <span class="c1">#     pass</span>
+        <span class="c1"># self.pipe.terminate()</span>
+        <span class="c1"># code = self.pipe.poll()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipe</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cout</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># cut out annoying drawstuff commands</span>
+        <span class="n">start_str</span> <span class="o">=</span> <span class="s1">&#39;Simulation test environment v0.02&#39;</span>
+        <span class="n">end_str</span> <span class="o">=</span> <span class="s1">&#39;sideways and up.&#39;</span>
+
+        <span class="n">start_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">start_str</span><span class="p">)</span>
+        <span class="n">end_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">end_str</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">start_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">end_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span><span class="p">[:</span><span class="n">start_index</span><span class="p">]</span> <span class="o">+</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span><span class="p">[</span><span class="n">end_index</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">end_str</span><span class="p">):]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read_sensor_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Simulator.get_sensor_data"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.get_sensor_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_sensor_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the sensor data of the specified sensor at each</span>
+<span class="sd">        time step&quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">sensor_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span> <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_assert_sensor</span><span class="p">(</span><span class="n">sensor_id</span><span class="p">,</span> <span class="s1">&#39;sensor_id&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span><span class="p">[</span><span class="n">sensor_id</span><span class="p">][:])</span></div>
+    
+<div class="viewcode-block" id="Simulator.get_all_sensor_data"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.get_all_sensor_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_sensor_data</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Outputs all sensor data created by the simulation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The sensor dictionary. The keys are is the id of the</span>
+<span class="sd">            sensor and the value a list containing the sensory </span>
+<span class="sd">            information at each time step.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span> <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Simulator.get_debug_output"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.get_debug_output">[docs]</a>    <span class="k">def</span> <span class="nf">get_debug_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the debug output from the simulation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strings_to_send</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span></div>
+
+    <span class="k">def</span> <span class="nf">_read_sensor_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># sensor data comes back as a long string of single values delimited by a space </span>
+        <span class="c1"># character. This function reads the value and splits the data accordingly</span>
+        <span class="c1"># into the proper sensor data entry</span>
+
+        <span class="n">sensor_vector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sensor_vector</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># at least one sensor present so contitue</span>
+            <span class="n">time_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor_vector</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+            <span class="k">while</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sensor_vector</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="c1"># first pop off id tag of the sensor</span>
+                <span class="n">entity_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor_vector</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+                <span class="c1"># create list entry in data dict to populate with sensor values</span>
+                <span class="c1"># for each time step</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span><span class="p">[</span><span class="n">entity_index</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">time_steps</span>
+
+                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">time_steps</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span><span class="p">[</span><span class="n">entity_index</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sensor_vector</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Append to string containing commands for C++ program to read in.</span>
+<span class="sd">        </span>
+<span class="sd">        `command` string should have a corresponding catch on the c++ side in environment.cpp</span>
+<span class="sd">        Remaining args should be read in by `readFromPython()` method in corresponding objects</span>
+<span class="sd">        C++ code.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Command must be string&#39;</span><span class="p">)</span>
+
+        <span class="c1"># each entry is delimited by \n</span>
+        <span class="n">string_to_send</span> <span class="o">=</span> <span class="n">command</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span> <span class="c1"># arg is a list or string</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span> <span class="c1"># arg is a single value</span>
+                <span class="n">string_to_send</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">string_to_send</span> <span class="o">+=</span> <span class="n">arg</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">string_to_send</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strings_to_send</span> <span class="o">+=</span> <span class="n">string_to_send</span>
+
+    <span class="k">def</span> <span class="nf">_send_add_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="s1">&#39;Add&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_send_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_type</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">valid_entity_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Entity&#39;</span><span class="p">,</span> <span class="s1">&#39;Body&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;Actuator&#39;</span><span class="p">,</span> <span class="s1">&#39;Joint&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;Sensor&#39;</span><span class="p">,</span> <span class="s1">&#39;Neuron&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;Synapse&#39;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">entity_type</span> <span class="ow">in</span> <span class="n">valid_entity_types</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Entity type inputed: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">entity_type</span><span class="p">)</span> <span class="o">+</span>
+                                                   <span class="s1">&#39; must be one of &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">valid_entity_types</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity_type</span><span class="p">)</span>
+        <span class="n">entity_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_entities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="s1">&#39;Entity&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_entities</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">entity_id</span>
+
+    <span class="k">def</span> <span class="nf">_send_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_send_simulator_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># send eval steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;EvalSteps&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eval_steps</span><span class="p">))</span>
+        <span class="c1"># send DT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;DT&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dt</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_assert_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">id_tag</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Body&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
+                                                  <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to body&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_assert_actuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Actuator&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
+                                                      <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to actuator&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_assert_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Joint&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
+                                                   <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to joint&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_assert_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Sensor&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
+                                                    <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to sensor&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_assert_neuron</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Neuron&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
+                                                    <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to neuron&#39;</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">play_blind</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">play_paused</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">sim</span><span class="o">.</span><span class="n">send_cylinder</span><span class="p">(</span><span class="n">capped</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">&#39;hi&#39;</span><span class="p">)</span>
+
+    <span class="n">sim</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">sim</span><span class="o">.</span><span class="n">wait_to_finish</span><span class="p">()</span>
+
+    <span class="n">debug</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">get_debug_output</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Collin Cappelle, Josh Bongard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

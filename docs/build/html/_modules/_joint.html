@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>_joint &mdash; pyrosim 0.1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyrosim
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrosim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>_joint</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for _joint</h1><div class="highlight"><pre>
+<span></span>
+<span class="k">class</span> <span class="nc">Mixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_send_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_entity</span><span class="p">(</span><span class="s1">&#39;Joint&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_hinge_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                         <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                         <span class="n">anchor</span><span class="p">,</span>
+                         <span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                         <span class="n">joint_range</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="c1"># other parameters to be added</span>
+                         <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a hinge joint to the simulator to attach two bodies</span>
+
+<span class="sd">        A hinge joint allows bodies to rotate in relation to one another</span>
+<span class="sd">        about the specified axis. By using -1 in place of a body id tag</span>
+<span class="sd">        the joint will connect a point in space to the other body. Specifying</span>
+<span class="sd">        `joint_range` places stopping limits on the joint.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body1       : int</span>
+<span class="sd">            The id tag of the first body. Specify -1 in order to set body1</span>
+<span class="sd">            to the &#39;world&#39;</span>
+<span class="sd">        body2       : int </span>
+<span class="sd">            The id tag of the second body. Specify -1 in order to set body2</span>
+<span class="sd">            to the &#39;world&#39;</span>
+<span class="sd">        anchor      : triple float</span>
+<span class="sd">            The location of the joint.</span>
+<span class="sd">        axis        : triple float (optional)</span>
+<span class="sd">            The axis the bodies rotate about. (default is about the z-axis</span>
+<span class="sd">            [0, 0, 1])</span>
+<span class="sd">        joint_range : float or tuple (optional)</span>
+<span class="sd">            The range of movement the joint can take in radians. The starting</span>
+<span class="sd">            joint position is always at 0. By specifying a single value, *a*,</span>
+<span class="sd">            the joint range becomes (*-a*, *+a*). You can also directly specify</span>
+<span class="sd">            the low and high stops by directly specifying the tuple. (default is</span>
+<span class="sd">            None meaning there are no stops)</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Id tag of the joint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body1</span><span class="p">,</span> <span class="s1">&#39;body1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body2</span><span class="p">,</span> <span class="s1">&#39;body2&#39;</span><span class="p">)</span>
+        
+        <span class="k">assert</span> <span class="ow">not</span><span class="p">(</span><span class="n">body1</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">body2</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Both bodies cannot be the world&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">joint_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">joint_range</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># no stops</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">joint_range</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">joint_range</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">joint_range</span><span class="p">,</span> <span class="n">joint_range</span><span class="p">)</span>
+
+        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">joint_range</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">anchor</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span><span class="s2">&quot;HingeJoint&quot;</span><span class="p">,</span>
+                          <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                          <span class="n">anchor</span><span class="p">,</span>
+                          <span class="n">axis</span><span class="p">,</span>
+                          <span class="n">joint_range</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_slider_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                          <span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                          <span class="n">joint_range</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a slider joint to the simulator</span>
+<span class="sd">    </span>
+<span class="sd">        Slider joints allow two bodies to move linearly in relation to one</span>
+<span class="sd">        another according to the specified axis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body1       : int</span>
+<span class="sd">            The id tag of the first body. Specify -1 in order to set body1</span>
+<span class="sd">            to the &#39;world&#39;</span>
+<span class="sd">        body2       : int </span>
+<span class="sd">            The id tag of the second body. Specify -1 in order to set body2</span>
+<span class="sd">            to the &#39;world&#39;</span>
+<span class="sd">        axis        : triple of floats (optional)</span>
+<span class="sd">            The axis of the slider joint. (default is along the z-axis</span>
+<span class="sd">            [0, 0, 1])</span>
+<span class="sd">        joint_range : float or tuple of floats (optional)</span>
+<span class="sd">            The limits the slider can move. By specifying a single float, *a*,</span>
+<span class="sd">            high and low limits are create (*-a*, *a*). (default is 0.5)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Id tag of the joint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body1</span><span class="p">,</span> <span class="s1">&#39;body1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body2</span><span class="p">,</span> <span class="s1">&#39;body2&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">joint_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">joint_range</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># no stops</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">joint_range</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">joint_range</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">joint_range</span><span class="p">,</span> <span class="n">joint_range</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">joint_range</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;joint_range must have 2 entries&quot;</span>
+
+        <span class="k">assert</span><span class="p">(</span><span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">,</span> <span class="s2">&quot;Slider joint cannot have infinite range&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span><span class="s2">&quot;SliderJoint&quot;</span><span class="p">,</span>
+                          <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                          <span class="n">axis</span><span class="p">,</span>
+                          <span class="n">joint_range</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_ball_and_socket_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                   <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                                   <span class="n">anchor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Send a ball and socket joint to the simulator</span>
+
+<span class="sd">        Ball and sockets maintain the distance between the bodies and the joint</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body1       : int</span>
+<span class="sd">            The id tag of the first body. Specify -1 in order to set body1</span>
+<span class="sd">            to the &#39;world&#39;</span>
+<span class="sd">        body2       : int </span>
+<span class="sd">            The id tag of the second body. Specify -1 in order to set body2</span>
+<span class="sd">            to the &#39;world&#39;</span>
+<span class="sd">        anchor      : triple of floats (optional)</span>
+<span class="sd">            The absolute starting position of the joint.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body1</span><span class="p">,</span> <span class="s1">&#39;body1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body2</span><span class="p">,</span> <span class="s1">&#39;body2&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span><span class="s2">&quot;BallAndSocketJoint&quot;</span><span class="p">,</span>
+                                <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                                <span class="n">anchor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_universal_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                             <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                             <span class="n">anchor</span><span class="p">,</span>
+                             <span class="n">axis1</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                             <span class="n">axis2</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+
+        <span class="sd">&quot;&quot;&quot;Send a ball and socket joint to the simulator</span>
+
+<span class="sd">        Universal joints allow rotation about two axes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body1       : int</span>
+<span class="sd">            The id tag of the first body. Specify -1 in order to set body1</span>
+<span class="sd">            to the &#39;world&#39;</span>
+<span class="sd">        body2       : int </span>
+<span class="sd">            The id tag of the second body. Specify -1 in order to set body2</span>
+<span class="sd">            to the &#39;world&#39;</span>
+<span class="sd">        anchor      : triple of floats</span>
+<span class="sd">            The absolute starting world position of the joint.</span>
+<span class="sd">        axis1       : triple of floats (optional)</span>
+<span class="sd">            The first axis of rotation. (Default is (0, 0, 1))</span>
+<span class="sd">        axis2       : triple of floats (optional)</span>
+<span class="sd">            The second axis of rotation. (Default is (1, 0, 0))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body1</span><span class="p">,</span> <span class="s1">&#39;body1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body2</span><span class="p">,</span> <span class="s1">&#39;body2&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span><span class="s2">&quot;UniversalJoint&quot;</span><span class="p">,</span>
+                                <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                                <span class="n">anchor</span><span class="p">,</span> <span class="n">axis1</span><span class="p">,</span> <span class="n">axis2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_length_spring_joint</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                                  <span class="n">resting_length</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                                  <span class="n">stiffness</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                                  <span class="n">damping</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends a spring which simply maintains a certain length between two bodies&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body1</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body2</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span> <span class="s1">&#39;LengthSpringJoint&#39;</span><span class="p">,</span>
+                                 <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                                 <span class="n">resting_length</span><span class="p">,</span>
+                                 <span class="n">stiffness</span><span class="p">,</span> <span class="n">damping</span> <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_linear_spring_joint</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">body1</span><span class="p">,</span>
+                                  <span class="n">body2</span><span class="p">,</span>
+                                  <span class="n">resting_length</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                                  <span class="n">stiffness</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                                  <span class="n">damping</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends a linear spring with infinite rotational stiffness&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body1</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body2</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span> <span class="s1">&#39;LinearSpringJoint&#39;</span><span class="p">,</span>
+                                 <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                                 <span class="n">resting_length</span><span class="p">,</span>
+                                 <span class="n">stiffness</span><span class="p">,</span>
+                                 <span class="n">damping</span> <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_hinge_spring_joint</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">body1</span><span class="p">,</span>
+                                  <span class="n">body2</span><span class="p">,</span>
+                                  <span class="n">stiffness</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                                  <span class="n">axis1</span> <span class="o">=</span> <span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">),</span>
+                                  <span class="n">axis2</span> <span class="o">=</span> <span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">),</span>
+                                  <span class="n">damping</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends a linear spring with infinite rotational stiffness&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body1</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body2</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span> <span class="s1">&#39;HingeSpringJoint&#39;</span><span class="p">,</span>
+                                 <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                                 <span class="n">stiffness</span><span class="p">,</span>
+                                 <span class="n">axis1</span><span class="p">,</span> <span class="n">axis2</span><span class="p">,</span>
+                                 <span class="n">damping</span> <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_universal_spring_joint</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span>
+                                     <span class="n">body1</span><span class="p">,</span>
+                                     <span class="n">body2</span><span class="p">,</span>
+                                     <span class="n">resting_length</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                                     <span class="n">linear_stiffness</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                                     <span class="n">rotational_stiffness</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends a spring&quot;&quot;&quot;</span>
+
+        <span class="c1"># assert resting_length &gt; 0, (&#39;resting_length must be &gt; 0&#39; )</span>
+        <span class="c1"># assert stiffness &gt; 0, ( &#39;stiffness must be &gt; 0&#39; )</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body1</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body2</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span> <span class="s1">&#39;UniversalSpringJoint&#39;</span><span class="p">,</span>
+                                    <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
+                                    <span class="n">resting_length</span><span class="p">,</span>
+                                    <span class="n">linear_stiffness</span><span class="p">,</span>
+                                    <span class="n">rotational_stiffness</span> <span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Collin Cappelle, Josh Bongard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

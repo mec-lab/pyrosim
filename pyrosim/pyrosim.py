@@ -36,7 +36,14 @@ class Simulator(_body.Mixin, _joint.Mixin,
 
     Attributes
     ----------
-    TO DO
+    eval_steps  : int (optional)
+        Number of simulated steps (default 100)
+    dt          : float (optional)
+        Length of simulated time in seconds of each step (default 0.01)
+    play_blind  : bool (optional)
+        Run without graphics (default False)
+    play_paused : bool (optional)
+        Start simulation paused (default False)
     """
 
     def __init__(self,
