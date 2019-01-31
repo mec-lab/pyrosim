@@ -40,3 +40,4 @@
 pyrosim/simulator/build/
 
 pyrosim/simulator/external/ode-0.12/
+*.DS_Store
