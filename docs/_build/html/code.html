@@ -150,7 +150,7 @@
 <span id="code"></span><h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="pyrosim.Simulator">
-<em class="property">class </em><code class="descclassname">pyrosim.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>eval_steps=100</em>, <em>dt=0.01</em>, <em>play_blind=False</em>, <em>play_paused=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pyrosim.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>eval_steps=100</em>, <em>dt=0.01</em>, <em>play_blind=False</em>, <em>play_paused=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Python Interface for ODE robotics simulator</p>
 <dl class="attribute">
 <dt id="pyrosim.Simulator.eval_steps">
@@ -244,7 +244,7 @@ has flat edges. (default True)</li>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.assign_collision">
-<code class="descname">assign_collision</code><span class="sig-paren">(</span><em>group1</em>, <em>group2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.assign_collision"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.assign_collision" title="Permalink to this definition">¶</a></dt>
+<code class="descname">assign_collision</code><span class="sig-paren">(</span><em>group1</em>, <em>group2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.assign_collision"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.assign_collision" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specifies that members of <em>group1</em> and <em>group2</em> should collide in simulation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -268,7 +268,7 @@ has flat edges. (default True)</li>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.get_all_sensor_data">
-<code class="descname">get_all_sensor_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.get_all_sensor_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.get_all_sensor_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_all_sensor_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.get_all_sensor_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.get_all_sensor_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Outputs all sensor data created by the simulation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -286,13 +286,13 @@ information at each time step.</td>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.get_debug_output">
-<code class="descname">get_debug_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.get_debug_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.get_debug_output" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_debug_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.get_debug_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.get_debug_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the debug output from the simulation</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.get_sensor_data">
-<code class="descname">get_sensor_data</code><span class="sig-paren">(</span><em>sensor_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.get_sensor_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.get_sensor_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_sensor_data</code><span class="sig-paren">(</span><em>sensor_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.get_sensor_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.get_sensor_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the sensor data of the specified sensor at each
 time step</p>
 </dd></dl>
@@ -911,7 +911,7 @@ time is longer than the length of the list, the values will be repeated</td>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.set_camera">
-<code class="descname">set_camera</code><span class="sig-paren">(</span><em>xyz</em>, <em>hpr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_camera" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_camera</code><span class="sig-paren">(</span><em>xyz</em>, <em>hpr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.set_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_camera" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets how the camera starts in simulation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -929,31 +929,31 @@ time is longer than the length of the list, the values will be repeated</td>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.set_current_collision_group">
-<code class="descname">set_current_collision_group</code><span class="sig-paren">(</span><em>group_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_current_collision_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_current_collision_group" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_current_collision_group</code><span class="sig-paren">(</span><em>group_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.set_current_collision_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_current_collision_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the current group name for future bodies to use as default</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.set_current_space">
-<code class="descname">set_current_space</code><span class="sig-paren">(</span><em>space_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_current_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_current_space" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_current_space</code><span class="sig-paren">(</span><em>space_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.set_current_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_current_space" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the current space name for future bodies to use as default</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.set_gravity">
-<code class="descname">set_gravity</code><span class="sig-paren">(</span><em>x=0</em>, <em>y=0</em>, <em>z=-9.8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_gravity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_gravity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_gravity</code><span class="sig-paren">(</span><em>x=0</em>, <em>y=0</em>, <em>z=-9.8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.set_gravity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_gravity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the gravity for simulation</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.start" title="Permalink to this definition">¶</a></dt>
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the simulation</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.wait_to_finish">
-<code class="descname">wait_to_finish</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.wait_to_finish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.wait_to_finish" title="Permalink to this definition">¶</a></dt>
+<code class="descname">wait_to_finish</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim/pyrosim.html#Simulator.wait_to_finish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.wait_to_finish" title="Permalink to this definition">¶</a></dt>
 <dd><p>Communicate with pipe once simulation is complete</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
