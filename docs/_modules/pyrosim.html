@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyrosim.pyrosim &mdash; pyrosim 0.1.1 documentation</title>
+  <title>pyrosim &mdash; pyrosim 0.1.1 documentation</title>
   
 
   
@@ -24,13 +24,13 @@
 
   
 
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
-  <script src="../../_static/js/modernizr.min.js"></script>
+  <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -46,7 +46,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> pyrosim
+            <a href="../index.html" class="icon icon-home"> pyrosim
           
 
           
@@ -59,7 +59,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -78,9 +78,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../code.html">Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
 </ul>
 
             
@@ -95,7 +95,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">pyrosim</a>
+          <a href="../index.html">pyrosim</a>
         
       </nav>
 
@@ -124,11 +124,11 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../index.html">Module code</a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
         
-      <li>pyrosim.pyrosim</li>
+      <li>pyrosim</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -143,7 +143,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for pyrosim.pyrosim</h1><div class="highlight"><pre>
+  <h1>Source code for pyrosim</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -175,7 +175,7 @@
     <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_sensor</span>
 
 
-<div class="viewcode-block" id="Simulator"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator">[docs]</a><span class="k">class</span> <span class="nc">Simulator</span><span class="p">(</span><span class="n">_body</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">_joint</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span>
+<div class="viewcode-block" id="Simulator"><a class="viewcode-back" href="../code.html#pyrosim.Simulator">[docs]</a><span class="k">class</span> <span class="nc">Simulator</span><span class="p">(</span><span class="n">_body</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">_joint</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span>
                 <span class="n">_actuator</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">_network</span><span class="o">.</span><span class="n">Mixin</span><span class="p">,</span>
                 <span class="n">_sensor</span><span class="o">.</span><span class="n">Mixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Python Interface for ODE robotics simulator</span>
@@ -228,7 +228,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span> <span class="o">=</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="Simulator.assign_collision"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.assign_collision">[docs]</a>    <span class="k">def</span> <span class="nf">assign_collision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group1</span><span class="p">,</span> <span class="n">group2</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.assign_collision"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.assign_collision">[docs]</a>    <span class="k">def</span> <span class="nf">assign_collision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group1</span><span class="p">,</span> <span class="n">group2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Specifies that members of *group1* and *group2* should collide in simulation</span>
 
 <span class="sd">        Parameters</span>
@@ -247,22 +247,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">(</span><span class="s1">&#39;AssignCollision&#39;</span><span class="p">,</span> <span class="n">group1</span><span class="p">,</span> <span class="n">group2</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Simulator.set_current_collision_group"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.set_current_collision_group">[docs]</a>    <span class="k">def</span> <span class="nf">set_current_collision_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_name</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.set_current_collision_group"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_current_collision_group">[docs]</a>    <span class="k">def</span> <span class="nf">set_current_collision_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the current group name for future bodies to use as default&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_current_collision_group</span> <span class="o">=</span> <span class="n">group_name</span></div>
 
-<div class="viewcode-block" id="Simulator.set_current_space"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.set_current_space">[docs]</a>    <span class="k">def</span> <span class="nf">set_current_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space_name</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.set_current_space"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_current_space">[docs]</a>    <span class="k">def</span> <span class="nf">set_current_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the current space name for future bodies to use as default&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_current_space</span> <span class="o">=</span> <span class="n">space_name</span></div>
 
-<div class="viewcode-block" id="Simulator.set_gravity"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.set_gravity">[docs]</a>    <span class="k">def</span> <span class="nf">set_gravity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=-</span><span class="mf">9.8</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.set_gravity"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_gravity">[docs]</a>    <span class="k">def</span> <span class="nf">set_gravity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=-</span><span class="mf">9.8</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the gravity for simulation&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityX&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityY&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityZ&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Simulator.set_camera"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.set_camera">[docs]</a>    <span class="k">def</span> <span class="nf">set_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">hpr</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.set_camera"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_camera">[docs]</a>    <span class="k">def</span> <span class="nf">set_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">hpr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets how the camera starts in simulation</span>
 
 <span class="sd">        Parameters</span>
@@ -297,7 +297,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span> <span class="s1">&#39;Friction&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="p">)</span>
 
-<div class="viewcode-block" id="Simulator.start"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.start"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Start the simulation&quot;&quot;&quot;</span>
 
         <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_play_blind</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_steps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span>
@@ -333,7 +333,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Done</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
         <span class="c1"># self.pipe.stdin.close()</span>
 
-<div class="viewcode-block" id="Simulator.wait_to_finish"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.wait_to_finish">[docs]</a>    <span class="k">def</span> <span class="nf">wait_to_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.wait_to_finish"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.wait_to_finish">[docs]</a>    <span class="k">def</span> <span class="nf">wait_to_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Communicate with pipe once simulation is complete</span>
 
 <span class="sd">        .. note:: for **python 3.x** it is necessary to use this command after `sim.start()`</span>
@@ -362,7 +362,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_read_sensor_data</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Simulator.get_sensor_data"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.get_sensor_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_sensor_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.get_sensor_data"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.get_sensor_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_sensor_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns the sensor data of the specified sensor at each</span>
 <span class="sd">        time step&quot;&quot;&quot;</span>
         
@@ -372,7 +372,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_assert_sensor</span><span class="p">(</span><span class="n">sensor_id</span><span class="p">,</span> <span class="s1">&#39;sensor_id&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span><span class="p">[</span><span class="n">sensor_id</span><span class="p">][:])</span></div>
     
-<div class="viewcode-block" id="Simulator.get_all_sensor_data"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.get_all_sensor_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_sensor_data</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+<div class="viewcode-block" id="Simulator.get_all_sensor_data"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.get_all_sensor_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_sensor_data</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Outputs all sensor data created by the simulation</span>
 
 <span class="sd">        Returns</span>
@@ -384,7 +384,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span> <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Simulator.get_debug_output"><a class="viewcode-back" href="../../code.html#pyrosim.Simulator.get_debug_output">[docs]</a>    <span class="k">def</span> <span class="nf">get_debug_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.get_debug_output"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.get_debug_output">[docs]</a>    <span class="k">def</span> <span class="nf">get_debug_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns the debug output from the simulation&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strings_to_send</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span></div>
 
@@ -525,7 +525,7 @@
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
+            URL_ROOT:'../',
             VERSION:'0.1.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
@@ -534,14 +534,14 @@
             SOURCELINK_SUFFIX: '.txt'
         };
     </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {
