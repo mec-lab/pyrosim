@@ -44,6 +44,9 @@ class Simulator(_body.Mixin, _joint.Mixin,
         Run without graphics (default False)
     play_paused : bool (optional)
         Start simulation paused (default False)
+    draw_joints : bool ( optional )
+        Starts simulation with joints drawn on screen. This can be toggled
+        while the simulation is running by pressing 'd'. (default False)
     """
 
     def __init__(self,
@@ -51,6 +54,7 @@ class Simulator(_body.Mixin, _joint.Mixin,
                  dt=0.01,
                  play_blind=False,
                  play_paused=False,
+                 draw_joints=False,
                  ):
 
         # location of this file
@@ -78,6 +82,8 @@ class Simulator(_body.Mixin, _joint.Mixin,
         # sim parameters
         self._eval_steps = eval_steps
         self._dt = dt
+
+        self._draw_joints = draw_joints
 
         self._raw_cerr = ''
         self._sensor_data = {}
@@ -116,7 +122,7 @@ class Simulator(_body.Mixin, _joint.Mixin,
         self._send_parameter('GravityY', y)
         self._send_parameter('GravityZ', z)
 
-    def set_camera(self, xyz, hpr):
+    def set_camera(self, xyz, hpr, tracking = 'none', body_to_track = 0 ):
         """Sets how the camera starts in simulation
 
         Parameters
@@ -125,12 +131,25 @@ class Simulator(_body.Mixin, _joint.Mixin,
             Indicates the statring position of the camera
         hpr : triple float
             Heading, Pitch, and Roll of the camera.
+        tracking : string
+            No tracking, pan tracking, or follow tracking
+        body_to_track : body id
+            Body to have to camera follow
         """
 
         assert len(xyz) == 3
         assert len(hpr) == 3
         x, y, z = xyz
         h, p, r = hpr
+
+        if tracking == 'none':
+            tracking = 0
+        elif tracking == 'pan':
+            tracking = 1
+        elif tracking == 'follow':
+            tracking = 2
+        else:
+            tracking = 0
 
         # C.C. parameters oare singular values so 
         # must write out vectors. May change in the future
@@ -142,6 +161,9 @@ class Simulator(_body.Mixin, _joint.Mixin,
         self._send_parameter('CameraH', h)
         self._send_parameter('CameraP', p)
         self._send_parameter('CameraR', r)
+
+        self._send_parameter( 'CameraTracking', tracking )
+        self._send_parameter( 'CameraBody', body_to_track )
 
     def set_friction( self, mu = 'Infinite' ):
 
@@ -311,6 +333,9 @@ class Simulator(_body.Mixin, _joint.Mixin,
         self._send_parameter('EvalSteps', int(self._eval_steps))
         # send DT
         self._send_parameter('DT', self._dt)
+
+        # send initial draw state
+        self._send_parameter('DrawJoints', int( self._draw_joints ) )
 
     def _assert_body(self, id_tag, tag_name=''):
         if (id_tag == -1):

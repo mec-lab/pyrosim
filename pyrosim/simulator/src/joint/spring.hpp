@@ -37,15 +37,11 @@ public:
     }
 };
 
-class LengthSpringJoint : public SpringJoint{
+class PointMassSpringJoint : public SpringJoint{
 protected:
     float restingLength;
 public:
-    LengthSpringJoint(){};
-
-    virtual EntityType getEntityType( void ){
-        return JOINT;
-    }
+    PointMassSpringJoint(){};
 
     void readFromPython( void ){
         readBodiesFromPython();
@@ -121,10 +117,6 @@ protected:
 
 public:
     LinearSpringJoint(){};
-
-    virtual EntityType getEntityType(void){
-        return JOINT;
-    }
 
     void readFromPython( void ){
         this->readBodiesFromPython( );
@@ -206,10 +198,6 @@ protected:
 
 public:
     HingeSpringJoint(){};
-
-    virtual EntityType getEntityType(void){
-        return JOINT;
-    }
 
     void create( Environment *environment ){
         std::cerr << "Creating Hinge Spring" << std::endl;

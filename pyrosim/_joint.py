@@ -172,7 +172,7 @@ class Mixin(object):
                                 body1, body2,
                                 anchor, axis1, axis2)
 
-    def send_length_spring_joint( self,
+    def send_point_mass_spring_joint( self,
                                   body1, body2,
                                   resting_length = 1.0,
                                   stiffness = 1.0,
@@ -182,7 +182,7 @@ class Mixin(object):
         self._assert_body( body1 )
         self._assert_body( body2 )
 
-        return self._send_joint( 'LengthSpringJoint',
+        return self._send_joint( 'PointMassSpringJoint',
                                  body1, body2,
                                  resting_length,
                                  stiffness, damping )

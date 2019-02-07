@@ -40,6 +40,7 @@ std::map<std::string, float> parameters; // maps of parameters useful to the sim
 int evalStep; // current evaluation step
 float evalTime; // current eval time in simulated seconds
 Environment *environment;
+enum CameraTracker { NONE, PAN, FOLLOW };
 
 std::string texturePathStr = "../external/ode-0.12/drawstuff/textures";
 dsFunctions fn; // drawstuff pointers
@@ -108,6 +109,9 @@ int main(int argc, char **argv){
     }
     else{
         initializeDrawStuff();
+        if ( parameters["DrawJoints"] > 0 ){
+            drawJoints = true;
+        }
         // can't set camera here :(
         dsSimulationLoop(argc, argv, 900, 700, &fn);
     }
@@ -180,13 +184,15 @@ static void drawLoop(int pause){
     for(int i=0; i < nsteps && !pause; i++){
         simulationStep();
     }
+    
+    float xyz[3];
+    float hpr[3];
 
     if (pause == true){
         // draw pause square to signify paused
-        float xyz[3];
-        float hpr[3];
 
         dsGetViewpoint(xyz, hpr);
+
         dVector3 forward, right, up; // direction vector of camera
 
         forward[0] = cos(hpr[0] * PI / 180.0) * cos(hpr[1] * PI / 180.0); //* (1 - cos(hpr[1] * PI / 180.0));
@@ -221,6 +227,36 @@ static void drawLoop(int pause){
                            xyz[1] + forward[1]*fdist + (1+rOff*i)*right[1]*rdist + up[1]*udist*uOff,
                            xyz[2] + forward[2]*fdist + (1+rOff*i)*right[2]*rdist + up[2]*udist*uOff};
             dsDrawLine(topPoint, bottomPoint);
+        }
+    } else {
+        if ( CameraTracker ( parameters["CameraTracking"] ) == PAN ){
+            
+            dsGetViewpoint(xyz, hpr);
+            // panning
+            float direction[3];
+            const dReal* bodyPosition = ((RigidBody * )environment->getEntity( int( parameters["CameraBody"] ) ))->getPosition();
+            for ( int i = 0; i < 3; i++ ){
+                direction[i] = bodyPosition[i] - xyz[i];
+            }
+
+            if( !( direction[0] == 0 and direction[1] == 0 and direction[2] == 0 ) ){
+                float zDrop = direction[2];
+                float magnitude = sqrt( pow( direction[0], 2 ) +
+                                        pow( direction[1], 2 ) +
+                                        pow( direction[2], 2 ) );
+                for ( int i = 0; i < 3; i++ ){
+                    direction[i] = direction[i] / magnitude;
+                }
+
+                float newHeading = -atan2( direction[0], direction[1] ) * 180.0 / 3.14159 + 90.0;
+                float newPitch = asin( zDrop / magnitude ) * 180.0 / 3.14159;
+                
+                float newHPR[3] = { newHeading, newPitch, hpr[2] };
+                std::cerr << newHPR[0] << " " << newHPR[1] << " " << newHPR[2] << std::endl;
+                dsSetViewpoint( xyz, newHPR );
+            }
+        } else if ( CameraTracker ( parameters["CameraTracking"] ) == FOLLOW ){
+            // NOT YET IMPLEMENTED
         }
     }
 
@@ -280,6 +316,9 @@ void initializeParameters(void){
     parameters["CameraP"] = -10.0f;
     parameters["CameraR"] = 0.0f;
 
+    parameters["CameraTracking"] = 0.0f;
+    parameters["CameraBody"] = 0.0f;
+
     parameters["GravityX"] = 0.0f;
     parameters["GravityY"] = 0.0f;
     parameters["GravityZ"] = -9.8f;
@@ -287,6 +326,8 @@ void initializeParameters(void){
     parameters["nContacts"] = 10;
 
     parameters["Friction"] = dInfinity;
+
+    parameters["DrawJoints"] = 0.0;
 }
 
 void simulationStep(void){
