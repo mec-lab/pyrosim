@@ -2,11 +2,11 @@ import sys
 sys.path.insert(0, '../../')
 import pyrosim
 
-def send_length_example( sim ):
+def send_point_mass_example( sim ):
     fixed_box = sim.send_box( position = ( -2, 0, 1 ) )
     sim.send_slider_joint( -1, fixed_box, joint_range = 0 )
     free_box = sim.send_box( position = ( -2.5, 0, 1 ) )
-    sim.send_length_spring_joint( fixed_box, free_box,
+    sim.send_point_mass_spring_joint( fixed_box, free_box,
                                   resting_length = 0.5,
                                   stiffness = 1.0 )
 
@@ -32,11 +32,11 @@ def send_linear_example( sim ):
                                   resting_length = 0.75,
                                   damping = 0.01 )
 
-sim = pyrosim.Simulator( eval_steps = -1, play_paused = True )
+sim = pyrosim.Simulator( eval_steps = -1, play_paused = True, draw_joints = True )
 sim.set_friction( mu = 0 )
 
 sim.set_current_collision_group( 'springs' )
-send_length_example( sim )
+send_point_mass_example( sim )
 send_linear_example( sim )
 send_hinge_example( sim )
 
