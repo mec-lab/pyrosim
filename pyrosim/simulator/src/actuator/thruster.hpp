@@ -54,9 +54,9 @@ public:
         this->lastMagnitude = forceMagnitude;
 
         // std::cerr << forceMagnitude << " " << high_force << " " << std::endl;
-        const dReal dir[3] = {xDir * forceMagnitude * dt,
-                              yDir * forceMagnitude * dt,
-                              zDir * forceMagnitude * dt};
+        const dReal dir[3] = {xDir * forceMagnitude,
+                              yDir * forceMagnitude,
+                              zDir * forceMagnitude};
         // save the direction of the force for drawing purposes
         this->lastForce[0] = normalizedInput * xDir;
         this->lastForce[1] = normalizedInput * yDir;

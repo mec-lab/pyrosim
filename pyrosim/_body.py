@@ -118,15 +118,6 @@ class Mixin(object):
                                 radius=0.25,
                                 density=1.0,
                                 color=(1.0, 1.0, 1.0)):
-        self._assert_body(composite_id, 'composite_id')
-        self._send_add_command(composite_id,
-                               'Geom',
-                               'Sphere',
-                               position,
-                               orientation,
-                               radius,
-                               density,
-                               color)
         """Adds sphere geometry to a composite body
 
         Parameters
@@ -144,13 +135,37 @@ class Mixin(object):
         color        : triple float (optional)
             Color of the body. (default is [1, 1, 1])
         """
+        self._assert_body(composite_id, 'composite_id')
+        self._send_add_command(composite_id,
+                               'Geom',
+                               'Sphere',
+                               position,
+                               orientation,
+                               radius,
+                               density,
+                               color)
+
+
     def send_ray(self,
                  body_id,
                  position,
-                 orientation,
+                 direction,
                  max_length=10.0):
+        """Send a ray entity and attach to a body
+        
+        Parameters
+        ----------
+        body_id     : int
+            The body entity id to attach to
+        position    : triple float
+            The starting position of the ray.
+        direction   : triple float
+            The starting orientation of the ray
+        max_length  : float
+            The total length the ray can sense
+        """
         self._assert_body(body_id, 'composite_id')
-        return self._send_body('Ray', body_id, position, orientation, max_length)
+        return self._send_body('Ray', body_id, position, direction, max_length)
 
     def send_box(self,
                  position = (0.0, 0.0, 0.0),

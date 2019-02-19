@@ -100,6 +100,6 @@ class Mixin(object):
 
     def send_hidden_neuron(self, alpha=1.0, tau=1.0,
                            starting_value=0.0):
-
+        """Send a hidden neuron to the simulator"""
         return self._send_neuron('HiddenNeuron',
                                  alpha, tau, starting_value)

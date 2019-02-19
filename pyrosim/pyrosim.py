@@ -50,11 +50,13 @@ class Simulator(_body.Mixin, _joint.Mixin,
     """
 
     def __init__(self,
-                 eval_steps=100,
-                 dt=0.01,
-                 play_blind=False,
-                 play_paused=False,
-                 draw_joints=False,
+                 eval_steps = 100,
+                 dt = 0.01,
+                 play_blind = False,
+                 play_paused = False,
+                 draw_joints = False,
+                 use_textures = True,
+                 draw_shadows = True,
                  ):
 
         # location of this file
@@ -83,7 +85,10 @@ class Simulator(_body.Mixin, _joint.Mixin,
         self._eval_steps = eval_steps
         self._dt = dt
 
+        # draw parameters
         self._draw_joints = draw_joints
+        self._use_textures = use_textures
+        self._draw_shadows = draw_shadows
 
         self._raw_cerr = ''
         self._sensor_data = {}
@@ -191,7 +196,11 @@ class Simulator(_body.Mixin, _joint.Mixin,
             commands.append('-blind')
         if self._play_paused:
             commands.append('-pause')
-
+        if not self._use_textures:
+            commands.append('-notex')
+        if not self._draw_shadows:
+            commands.append('-noshadow')
+            
         # create pipe to simulator
         self.pipe = subprocess.Popen(
             commands,

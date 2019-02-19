@@ -43,6 +43,7 @@ StringToEntity stringToEntityMap{
     {"ThrusterActuator",     &createEntityInstance<ThrusterActuator>     }, // thruster - like a rocket
     {"Synapse",              &createEntityInstance<Synapse>              }, // Synapse
     {"BiasNeuron",           &createEntityInstance<BiasNeuron>           }, // Bias neuron
+    {"HiddenNeuron",         &createEntityInstance<HiddenNeuron>         }, // Hidden Neuron
     {"MotorNeuron",          &createEntityInstance<MotorNeuron>          }, // Motor Neuron
     {"UserNeuron",           &createEntityInstance<UserNeuron>           }, // User Neuron
     {"SensorNeuron",         &createEntityInstance<SensorNeuron>         }, // Sensor Neuron

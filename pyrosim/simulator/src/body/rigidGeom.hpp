@@ -58,9 +58,16 @@ public:
                          this->position[0],
                          this->position[1],
                          this->position[2]);
-        dMatrix3 R;
-        dRFromZAxis(R, this->orientation[0], this->orientation[1], this->orientation[2]);
-        dGeomSetRotation(this->geom, R);
+        
+        if ( this->orientation[0] == 0.0 and
+             this->orientation[1] == 0.0 and
+             this->orientation[2] == 1.0 ){
+            // pass
+        } else{
+            dMatrix3 R;
+            dRFromZAxis(R, this->orientation[0], this->orientation[1], this->orientation[2]);
+            dGeomSetRotation(this->geom, R);
+        }
     }
 
     void resetGeomUsingOffset(void){
@@ -68,9 +75,15 @@ public:
                                     this->position[0],
                                     this->position[1],
                                     this->position[2]);
-        dMatrix3 R;
-        dRFromZAxis(R, this->orientation[0], this->orientation[1], this->orientation[2]);
-        dGeomSetOffsetWorldRotation(this->geom, R);
+        if ( this->orientation[0] == 0.0 and
+             this->orientation[1] == 0.0 and
+             this->orientation[2] == 1.0 ){
+            // pass
+        } else{
+            dMatrix3 R;
+            dRFromZAxis(R, this->orientation[0], this->orientation[1], this->orientation[2]);
+            dGeomSetRotation(this->geom, R);
+        }
     }
 };
 
@@ -101,7 +114,7 @@ public:
         dsDrawBox(pos, rot, this->sides);
     }
 
-    void readDimensionsFromPython(void){ readValueFromPython<dReal>(sides, 3);}
+    void readDimensionsFromPython(void){ readValueFromPython<dReal>(this->sides, 3);}
 
     void writeToPython(void){
         std::cerr << "  Geom Box   :" << std::endl

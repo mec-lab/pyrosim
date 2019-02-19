@@ -80,7 +80,7 @@ public:
         this->color[0] = 0.0;
         this->color[1] = 0.0;
         this->color[2] = 0.0;
-        this->color[3] = 0.5;
+        this->color[3] = 0.0;
     }
 
     float getDistance(void){
@@ -92,6 +92,10 @@ public:
     }
 
     void draw(){
+        if ( this->color[3] == 0.0 ){
+            return;
+        }
+        
         dVector3 start, dir;
         dGeomRayGet(this->ray, start, dir);
 
