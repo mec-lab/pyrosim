@@ -190,13 +190,19 @@
 <span class="sd">        Run without graphics (default False)</span>
 <span class="sd">    play_paused : bool (optional)</span>
 <span class="sd">        Start simulation paused (default False)</span>
+<span class="sd">    draw_joints : bool ( optional )</span>
+<span class="sd">        Starts simulation with joints drawn on screen. This can be toggled</span>
+<span class="sd">        while the simulation is running by pressing &#39;d&#39;. (default False)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">eval_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                 <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-                 <span class="n">play_blind</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">play_paused</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">eval_steps</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+                 <span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+                 <span class="n">play_blind</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">play_paused</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">draw_joints</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">use_textures</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">draw_shadows</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="p">):</span>
 
         <span class="c1"># location of this file</span>
@@ -224,6 +230,11 @@
         <span class="c1"># sim parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eval_steps</span> <span class="o">=</span> <span class="n">eval_steps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dt</span> <span class="o">=</span> <span class="n">dt</span>
+
+        <span class="c1"># draw parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_draw_joints</span> <span class="o">=</span> <span class="n">draw_joints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_textures</span> <span class="o">=</span> <span class="n">use_textures</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_draw_shadows</span> <span class="o">=</span> <span class="n">draw_shadows</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_raw_cerr</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_data</span> <span class="o">=</span> <span class="p">{}</span>
@@ -262,7 +273,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityY&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityZ&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Simulator.set_camera"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_camera">[docs]</a>    <span class="k">def</span> <span class="nf">set_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">hpr</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulator.set_camera"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_camera">[docs]</a>    <span class="k">def</span> <span class="nf">set_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">hpr</span><span class="p">,</span> <span class="n">tracking</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">body_to_track</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets how the camera starts in simulation</span>
 
 <span class="sd">        Parameters</span>
@@ -271,12 +282,25 @@
 <span class="sd">            Indicates the statring position of the camera</span>
 <span class="sd">        hpr : triple float</span>
 <span class="sd">            Heading, Pitch, and Roll of the camera.</span>
+<span class="sd">        tracking : string</span>
+<span class="sd">            No tracking, pan tracking, or follow tracking</span>
+<span class="sd">        body_to_track : body id</span>
+<span class="sd">            Body to have to camera follow</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">hpr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">xyz</span>
         <span class="n">h</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">hpr</span>
+
+        <span class="k">if</span> <span class="n">tracking</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
+            <span class="n">tracking</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">tracking</span> <span class="o">==</span> <span class="s1">&#39;pan&#39;</span><span class="p">:</span>
+            <span class="n">tracking</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">tracking</span> <span class="o">==</span> <span class="s1">&#39;follow&#39;</span><span class="p">:</span>
+            <span class="n">tracking</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tracking</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># C.C. parameters oare singular values so </span>
         <span class="c1"># must write out vectors. May change in the future</span>
@@ -287,7 +311,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraH&#39;</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraP&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraR&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;CameraR&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span> <span class="s1">&#39;CameraTracking&#39;</span><span class="p">,</span> <span class="n">tracking</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span> <span class="s1">&#39;CameraBody&#39;</span><span class="p">,</span> <span class="n">body_to_track</span> <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">set_friction</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="s1">&#39;Infinite&#39;</span> <span class="p">):</span>
 
@@ -315,7 +342,11 @@
             <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-blind&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_play_paused</span><span class="p">:</span>
             <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-pause&#39;</span><span class="p">)</span>
-
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_textures</span><span class="p">:</span>
+            <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-notex&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_shadows</span><span class="p">:</span>
+            <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-noshadow&#39;</span><span class="p">)</span>
+            
         <span class="c1"># create pipe to simulator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
             <span class="n">commands</span><span class="p">,</span>
@@ -457,6 +488,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;EvalSteps&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eval_steps</span><span class="p">))</span>
         <span class="c1"># send DT</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;DT&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dt</span><span class="p">)</span>
+
+        <span class="c1"># send initial draw state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;DrawJoints&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_joints</span> <span class="p">)</span> <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_assert_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">id_tag</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>

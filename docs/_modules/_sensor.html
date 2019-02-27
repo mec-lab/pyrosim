@@ -150,6 +150,11 @@
     <span class="k">def</span> <span class="nf">_send_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_entity</span><span class="p">(</span><span class="s1">&#39;Sensor&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">send_light_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span> <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;body_id&#39;</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span> <span class="s1">&#39;LightSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span> <span class="p">)</span>
+
+
     <span class="c1"># ------------ POSITION SENSOR -----------------------------</span>
     <span class="k">def</span> <span class="nf">send_position_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Send position sensor which tracks the body specified in body_id</span>

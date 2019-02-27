@@ -264,15 +264,6 @@
                                 <span class="n">radius</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
                                 <span class="n">density</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                                 <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span> <span class="s1">&#39;composite_id&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_send_add_command</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span>
-                               <span class="s1">&#39;Geom&#39;</span><span class="p">,</span>
-                               <span class="s1">&#39;Sphere&#39;</span><span class="p">,</span>
-                               <span class="n">position</span><span class="p">,</span>
-                               <span class="n">orientation</span><span class="p">,</span>
-                               <span class="n">radius</span><span class="p">,</span>
-                               <span class="n">density</span><span class="p">,</span>
-                               <span class="n">color</span><span class="p">)</span>
         <span class="sd">&quot;&quot;&quot;Adds sphere geometry to a composite body</span>
 
 <span class="sd">        Parameters</span>
@@ -290,13 +281,44 @@
 <span class="sd">        color        : triple float (optional)</span>
 <span class="sd">            Color of the body. (default is [1, 1, 1])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span> <span class="s1">&#39;composite_id&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_add_command</span><span class="p">(</span><span class="n">composite_id</span><span class="p">,</span>
+                               <span class="s1">&#39;Geom&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;Sphere&#39;</span><span class="p">,</span>
+                               <span class="n">position</span><span class="p">,</span>
+                               <span class="n">orientation</span><span class="p">,</span>
+                               <span class="n">radius</span><span class="p">,</span>
+                               <span class="n">density</span><span class="p">,</span>
+                               <span class="n">color</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_light_to_body</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Makes the target body emit a light that can be sensed by light sensors&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;body_id&#39;</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_add_command</span><span class="p">(</span> <span class="n">body_id</span><span class="p">,</span>
+                                <span class="s1">&#39;Light&#39;</span><span class="p">,</span>
+                                <span class="n">intensity</span> <span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">send_ray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">body_id</span><span class="p">,</span>
                  <span class="n">position</span><span class="p">,</span>
-                 <span class="n">orientation</span><span class="p">,</span>
+                 <span class="n">direction</span><span class="p">,</span>
                  <span class="n">max_length</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a ray entity and attach to a body</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body_id     : int</span>
+<span class="sd">            The body entity id to attach to</span>
+<span class="sd">        position    : triple float</span>
+<span class="sd">            The starting position of the ray.</span>
+<span class="sd">        direction   : triple float</span>
+<span class="sd">            The starting orientation of the ray</span>
+<span class="sd">        max_length  : float</span>
+<span class="sd">            The total length the ray can sense</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;composite_id&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_body</span><span class="p">(</span><span class="s1">&#39;Ray&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_body</span><span class="p">(</span><span class="s1">&#39;Ray&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">send_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>

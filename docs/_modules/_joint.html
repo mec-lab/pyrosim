@@ -318,7 +318,7 @@
                                 <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
                                 <span class="n">anchor</span><span class="p">,</span> <span class="n">axis1</span><span class="p">,</span> <span class="n">axis2</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_length_spring_joint</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">send_point_mass_spring_joint</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span>
                                   <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
                                   <span class="n">resting_length</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
                                   <span class="n">stiffness</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
@@ -328,7 +328,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body1</span> <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body2</span> <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span> <span class="s1">&#39;LengthSpringJoint&#39;</span><span class="p">,</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_joint</span><span class="p">(</span> <span class="s1">&#39;PointMassSpringJoint&#39;</span><span class="p">,</span>
                                  <span class="n">body1</span><span class="p">,</span> <span class="n">body2</span><span class="p">,</span>
                                  <span class="n">resting_length</span><span class="p">,</span>
                                  <span class="n">stiffness</span><span class="p">,</span> <span class="n">damping</span> <span class="p">)</span>

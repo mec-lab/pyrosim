@@ -150,7 +150,7 @@
 <span id="code"></span><h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="pyrosim.Simulator">
-<em class="property">class </em><code class="descclassname">pyrosim.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>eval_steps=100</em>, <em>dt=0.01</em>, <em>play_blind=False</em>, <em>play_paused=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pyrosim.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>eval_steps=100</em>, <em>dt=0.01</em>, <em>play_blind=False</em>, <em>play_paused=False</em>, <em>draw_joints=False</em>, <em>use_textures=True</em>, <em>draw_shadows=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Python Interface for ODE robotics simulator</p>
 <dl class="attribute">
 <dt id="pyrosim.Simulator.eval_steps">
@@ -174,6 +174,13 @@
 <dt id="pyrosim.Simulator.play_paused">
 <code class="descname">play_paused</code><a class="headerlink" href="#pyrosim.Simulator.play_paused" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>bool (optional)</em> – Start simulation paused (default False)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrosim.Simulator.draw_joints">
+<code class="descname">draw_joints</code><a class="headerlink" href="#pyrosim.Simulator.draw_joints" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool ( optional )</em> – Starts simulation with joints drawn on screen. This can be toggled
+while the simulation is running by pressing ‘d’. (default False)</p>
 </dd></dl>
 
 <dl class="method">
@@ -235,6 +242,34 @@ has flat edges. (default True)</li>
 <li><strong>body_id</strong> (<em>int</em>) – The id tag of the target body</li>
 <li><strong>force</strong> (<em>triple float</em>) – The force vector to apply</li>
 <li><strong>time_step</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The tme step to apply the specified force</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrosim.Simulator.add_light_to_body">
+<code class="descname">add_light_to_body</code><span class="sig-paren">(</span><em>body_id</em>, <em>intensity=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.add_light_to_body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes the target body emit a light that can be sensed by light sensors</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrosim.Simulator.add_sphere_to_composite">
+<code class="descname">add_sphere_to_composite</code><span class="sig-paren">(</span><em>composite_id</em>, <em>position=(0.0</em>, <em>0.0</em>, <em>0.0)</em>, <em>orientation=(0.0</em>, <em>0.0</em>, <em>1.0)</em>, <em>radius=0.25</em>, <em>density=1.0</em>, <em>color=(1.0</em>, <em>1.0</em>, <em>1.0)</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.add_sphere_to_composite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds sphere geometry to a composite body</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>composite_id</strong> (<em>int</em>) – The id tag of the target composite body</li>
+<li><strong>position</strong> (<em>triple float</em><em> (</em><em>optional</em><em>)</em>) – The global position of the body. (default [0, 0, 0])</li>
+<li><strong>orientation</strong> (<em>triple float</em><em> (</em><em>optional</em><em>)</em>) – The gloabl orientation of the body. (default [0, 0, 1])</li>
+<li><strong>radius</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – The radius of the sphere. (default 0.25)</li>
+<li><strong>density</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – The density of the body</li>
+<li><strong>color</strong> (<em>triple float</em><em> (</em><em>optional</em><em>)</em>) – Color of the body. (default is [1, 1, 1])</li>
 </ul>
 </td>
 </tr>
@@ -442,6 +477,12 @@ a square. (default is (10, 10))</li>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyrosim.Simulator.send_hidden_neuron">
+<code class="descname">send_hidden_neuron</code><span class="sig-paren">(</span><em>alpha=1.0</em>, <em>tau=1.0</em>, <em>starting_value=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_hidden_neuron" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a hidden neuron to the simulator</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyrosim.Simulator.send_hinge_joint">
 <code class="descname">send_hinge_joint</code><span class="sig-paren">(</span><em>body1</em>, <em>body2</em>, <em>anchor</em>, <em>axis=(0</em>, <em>0</em>, <em>1)</em>, <em>joint_range=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_hinge_joint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a hinge joint to the simulator to attach two bodies</p>
@@ -490,12 +531,6 @@ None meaning there are no stops)</li>
 <code class="descname">send_is_seen_sensor</code><span class="sig-paren">(</span><em>body_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_is_seen_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attach a sensor to a body which reports a 1 when ‘seen’ by
 a ray sensor and a 0 when not ‘seen’</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyrosim.Simulator.send_length_spring_joint">
-<code class="descname">send_length_spring_joint</code><span class="sig-paren">(</span><em>body1</em>, <em>body2</em>, <em>resting_length=1.0</em>, <em>stiffness=1.0</em>, <em>damping=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_length_spring_joint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends a spring which simply maintains a certain length between two bodies</p>
 </dd></dl>
 
 <dl class="method">
@@ -562,6 +597,12 @@ not start at 0. (default is 0)</li>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrosim.Simulator.send_point_mass_spring_joint">
+<code class="descname">send_point_mass_spring_joint</code><span class="sig-paren">(</span><em>body1</em>, <em>body2</em>, <em>resting_length=1.0</em>, <em>stiffness=1.0</em>, <em>damping=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_point_mass_spring_joint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a spring which simply maintains a certain length between two bodies</p>
 </dd></dl>
 
 <dl class="method">
@@ -642,6 +683,26 @@ Attached proprioceptive sensors will only return 0.</p>
 a body. It’s components are a, b, c, and d. You can also use
 w, x, y, and z. Read more here:
 <a class="reference external" href="https://en.wikipedia.org/wiki/Quaternion">https://en.wikipedia.org/wiki/Quaternion</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrosim.Simulator.send_ray">
+<code class="descname">send_ray</code><span class="sig-paren">(</span><em>body_id</em>, <em>position</em>, <em>direction</em>, <em>max_length=10.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_ray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a ray entity and attach to a body</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>body_id</strong> (<em>int</em>) – The body entity id to attach to</li>
+<li><strong>position</strong> (<em>triple float</em>) – The starting position of the ray.</li>
+<li><strong>direction</strong> (<em>triple float</em>) – The starting orientation of the ray</li>
+<li><strong>max_length</strong> (<em>float</em>) – The total length the ray can sense</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -911,7 +972,7 @@ time is longer than the length of the list, the values will be repeated</td>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.set_camera">
-<code class="descname">set_camera</code><span class="sig-paren">(</span><em>xyz</em>, <em>hpr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_camera" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_camera</code><span class="sig-paren">(</span><em>xyz</em>, <em>hpr</em>, <em>tracking='none'</em>, <em>body_to_track=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_camera" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets how the camera starts in simulation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -920,6 +981,8 @@ time is longer than the length of the list, the values will be repeated</td>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>xyz</strong> (<em>triple float</em>) – Indicates the statring position of the camera</li>
 <li><strong>hpr</strong> (<em>triple float</em>) – Heading, Pitch, and Roll of the camera.</li>
+<li><strong>tracking</strong> (<em>string</em>) – No tracking, pan tracking, or follow tracking</li>
+<li><strong>body_to_track</strong> (<em>body id</em>) – Body to have to camera follow</li>
 </ul>
 </td>
 </tr>
