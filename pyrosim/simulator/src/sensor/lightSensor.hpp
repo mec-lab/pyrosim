@@ -38,7 +38,7 @@ public:
                     dReal distanceSquared = pow( myPosition[0] - otherPosition[0], 2.0 ) + 
                                             pow( myPosition[1] - otherPosition[1], 2.0 ) +
                                             pow( myPosition[2] - otherPosition[2], 2.0 );
-                    dReal intensity = 1.0 / distanceSquared;
+                    dReal intensity = otherBody->lightIntensity * ( 1.0 / distanceSquared );
                     lightSense += intensity;
                 }
             }
