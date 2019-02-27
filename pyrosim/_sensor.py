@@ -5,6 +5,8 @@ class Mixin(object):
         return self._send_entity('Sensor', *args)
 
     def send_light_sensor( self, body_id ):
+        """Send a light sensor attached to a body"""
+        
         self._assert_body( body_id, 'body_id' )
         return self._send_sensor( 'LightSensor', body_id )
 
