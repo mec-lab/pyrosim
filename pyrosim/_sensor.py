@@ -4,12 +4,12 @@ class Mixin(object):
     def _send_sensor(self, *args):
         return self._send_entity('Sensor', *args)
 
+    # ------- LIGHT SENSOR ---------------------
     def send_light_sensor( self, body_id ):
         """Send a light sensor attached to a body"""
-        
+
         self._assert_body( body_id, 'body_id' )
         return self._send_sensor( 'LightSensor', body_id )
-
 
     # ------------ POSITION SENSOR -----------------------------
     def send_position_sensor(self, body_id, which_dimension='x'):
