@@ -6,6 +6,7 @@
 #include <ode/ode.h>
 #include <map>
 #include <vector>
+#include <math.h>
 
 #include "entity.hpp"
 #include "rigidGeom.hpp"
@@ -16,12 +17,15 @@ public:
     dBodyID body; // literal body object
     int isSeen;
     std::vector<RigidGeom*> geoms; // our class of geoms
+    dReal lightIntensity;
 
     std::string spaceName;
     std::string collisionGroupName;
     std::map<int, std::vector<float>> impulses;
     std::string componentName = "Body";
-    RigidBody(){};
+    RigidBody(){
+        lightIntensity = 0.0f;
+    };
 
     virtual void draw(void){
         // draw center of mass as black sphere
@@ -37,6 +41,33 @@ public:
 
         for (auto geom : this->geoms){
             geom->draw();
+        }
+
+        if ( this->lightIntensity > 0.0 ){
+            // draw light rays as 'hedgehog' ball
+            const dReal* center = this->getPosition();
+            const int N = 30;
+            const float length = log( this->lightIntensity + 1.0 ) * 0.5;
+
+            for( int i = 0; i < N; i++ ){
+                float phi = float( i ) / float( N - 1 ) * 3.14159;
+                float z = cos( phi );
+                for ( int j = 0; j < N; j++ ){
+                    float theta = float( j ) / float( N ) * 2.0 * 3.14159;
+
+                    float x = cos( theta ) * sin( phi );
+                    float y = sin( theta ) * sin( phi );
+
+                    
+                    const dReal point[3] = { center[0] + x * length,
+                                             center[1] + y * length,
+                                             center[2] + z * length };
+
+                    dsSetColorAlpha( 1.0, 1.0, 1.0, 1.0 );
+                    dsDrawLine( center, point);
+                }
+            }
+            
         }
     }
 
@@ -138,6 +169,8 @@ public:
             readGeomFromPython();
         else if (addition == "Impulse")
             readImpulseFromPython();
+        else if (addition == "Light")
+            readLightFromPython();
     }
 
     void readImpulseFromPython(void){
@@ -193,6 +226,10 @@ public:
 
     std::string getCollisionGroupName(void){
         return this->collisionGroupName;
+    }
+
+    void readLightFromPython( void ){
+        readValueFromPython<dReal>( &this->lightIntensity, "Light Intensity" );
     }
 
     // dReal* getColor(void){

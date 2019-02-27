@@ -145,6 +145,13 @@ class Mixin(object):
                                density,
                                color)
 
+    def add_light_to_body( self, body_id, intensity = 1.0 ):
+        """Makes the target body emit a light that can be sensed by light sensors"""
+
+        self._assert_body( body_id, 'body_id' )
+        self._send_add_command( body_id,
+                                'Light',
+                                intensity )
 
     def send_ray(self,
                  body_id,

@@ -14,6 +14,7 @@ typedef std::map<std::string, Entity * (*) ()> StringToEntity;
 #include "joint/spring.hpp"
 #include "network/ctrnn.hpp"
 #include "sensor/isSeenSensor.hpp"
+#include "sensor/lightSensor.hpp"
 #include "sensor/positionSensor.hpp"
 #include "sensor/raySensor.hpp"
 #include "sensor/touchSensor.hpp"
@@ -48,6 +49,7 @@ StringToEntity stringToEntityMap{
     {"UserNeuron",           &createEntityInstance<UserNeuron>           }, // User Neuron
     {"SensorNeuron",         &createEntityInstance<SensorNeuron>         }, // Sensor Neuron
     {"IsSeenSensor",         &createEntityInstance<IsSeenSensor>         }, // Is seen sensor
+    {"LightSensor",          &createEntityInstance<LightSensor>          }, // Light Sensor
     {"PositionSensor",       &createEntityInstance<PositionSensor>       }, // Position Sensor
     {"RaySensor",            &createEntityInstance<RaySensor>            }, // Ray sensor
     {"TouchSensor",          &createEntityInstance<TouchSensor>          }, // Touch sensor
