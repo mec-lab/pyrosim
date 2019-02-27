@@ -37,7 +37,7 @@ motor = sim.send_rotary_actuator(joint,
                                  )
 ray = sim.send_ray(cyl2,
                    position=(length, 0, length + radius),
-                   orientation=(1, 0, 0),
+                   direction=(1, 0, 0),
                    max_length=10.0)
 
 x_sensor = sim.send_position_sensor(cyl1, 'x')

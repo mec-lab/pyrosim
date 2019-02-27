@@ -10,4 +10,4 @@ touch = sim.send_touch_sensor(cyl)
 sim.start()
 sim.wait_to_finish()
 
-print(sim.get_sensor_data(touch))
+print( sim.get_sensor_data(touch) )

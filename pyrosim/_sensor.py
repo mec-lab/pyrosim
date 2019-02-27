@@ -5,14 +5,14 @@ class Mixin(object):
         return self._send_entity('Sensor', *args)
 
     # ------- LIGHT SENSOR ---------------------
-    def send_light_sensor( self, body_id ):
+    def send_light_sensor( self, body_id, write_back = True):
         """Send a light sensor attached to a body"""
 
         self._assert_body( body_id, 'body_id' )
-        return self._send_sensor( 'LightSensor', body_id )
+        return self._send_sensor( 'LightSensor', body_id, int( write_back ) )
 
     # ------------ POSITION SENSOR -----------------------------
-    def send_position_sensor(self, body_id, which_dimension='x'):
+    def send_position_sensor(self, body_id, which_dimension='x', write_back = True):
         """Send position sensor which tracks the body specified in body_id
 
         Parameters
@@ -22,7 +22,8 @@ class Mixin(object):
         which_dimension : str or int (optional)
             Specifies which dimension to track: 'x', 'y', or 'z'.
             You can also use 0, 1, or 2. (default is 'x')
-
+        write_back  : bool
+            If True, write back to python after simulation. (Default True)
         Returns
         -------
         int
@@ -40,22 +41,22 @@ class Mixin(object):
         assert which_dimension >=0 and which_dimension <=2, ('Which dimension must be x, y, or z')
         self._assert_body(body_id, 'body_id')
 
-        return  self._send_sensor('PositionSensor', body_id, which_dimension)
+        return  self._send_sensor('PositionSensor', body_id, which_dimension, int( write_back ) )
 
     def send_position_x_sensor(self, body_id):
         """Send x position sensor which tracks the body specified in *body_id*"""
-        return self.send_position_sensor(body_id, which_dimension='x')
+        return self.send_position_sensor(body_id, which_dimension='x', write_back = write_back)
 
-    def send_position_y_sensor(self, body_id):
+    def send_position_y_sensor(self, body_id, write_back = True ):
         """Send y position sensor which tracks the body specified in *body_id*"""
-        return self.send_position_sensor(body_id, which_dimension='y')
+        return self.send_position_sensor(body_id, which_dimension='y', write_back = write_back)
 
-    def send_position_z_sensor(self, body_id):
+    def send_position_z_sensor(self, body_id, write_back = True):
         """Send z position sensor which tracks the body specified in *body_id*"""
-        return self.send_position_sensor(body_id, which_dimension='z')
+        return self.send_position_sensor(body_id, which_dimension='z', write_back = write_back)
 
     # ----------- RAY SENSOR ------------------------------------
-    def send_ray_sensor(self, ray_id, which_sense='d'):
+    def send_ray_sensor(self, ray_id, which_sense='d', write_back=True):
         """
         Sends a ray sensor to the simulator.
 
@@ -69,7 +70,8 @@ class Mixin(object):
         which_sense : str or int (optional)
             Specifies which sense of the ray to return.
             Use 'd' for distance, 'r' for red, 'g' for green, 'b' for blue.
-        
+        write_back  : bool
+            If True, write back to python after simulation. (Default True)
         Returns
         -------
         int
@@ -86,22 +88,22 @@ class Mixin(object):
 
         assert which_sense >=0 and which_sense <=3, ('Which sense must be d, r, g, b or 0, 1, 2, 3')
         self._assert_body(ray_id, 'ray_id')
-        return self._send_sensor('RaySensor', ray_id, which_sense)
+        return self._send_sensor('RaySensor', ray_id, which_sense, int( write_back) )
 
-    def send_ray_distance_sensor(self, ray_id ):
-        return self.send_ray_sensor(ray_id, which_sense='d')
+    def send_ray_distance_sensor(self, ray_id, write_back = True ):
+        return self.send_ray_sensor(ray_id, which_sense='d', write_back = write_back)
 
-    def send_ray_red_sensor(self, ray_id ):
-        return self.send_ray_sensor(ray_id, which_sense='r')
+    def send_ray_red_sensor(self, ray_id, write_back = True ):
+        return self.send_ray_sensor(ray_id, which_sense='r', write_back = write_back)
 
-    def send_ray_green_sensor(self, ray_id ):
-        return self.send_ray_sensor(ray_id, which_sense='g')
+    def send_ray_green_sensor(self, ray_id, write_back = True ):
+        return self.send_ray_sensor(ray_id, which_sense='g', write_back = write_back)
 
-    def send_ray_blue_sensor(self, ray_id ):
-        return self.send_ray_sensor(ray_id, which_sense='b')
+    def send_ray_blue_sensor(self, ray_id, write_back = True ):
+        return self.send_ray_sensor(ray_id, which_sense='b', write_back = write_back )
 
     # --------------- TOUCH SENSOR -----------------------------------
-    def send_touch_sensor(self, body_id):
+    def send_touch_sensor(self, body_id, write_back = True):
         """Attach a touch sensor to a body
 
         Parameters
@@ -113,15 +115,17 @@ class Mixin(object):
         -------
         int
             The id tag of the sensor
+        write_back  : bool
+            If True, write back to python after simulation. (Default True)
         """
 
         self._assert_body(body_id)
 
-        return self._send_sensor('TouchSensor', body_id)
+        return self._send_sensor('TouchSensor', body_id, int( write_back ) )
 
 
     # ------------- QUATERNION SENSOR --------------------------------
-    def send_quaternion_sensor(self, body_id, which_sense='a'):
+    def send_quaternion_sensor(self, body_id, which_sense='a', write_back = True):
         """Attach a vestibular sensor returning the quaternion of the body.
 
         Quaternions is 4 element vector which can represent the rotation of 
@@ -141,21 +145,21 @@ class Mixin(object):
         assert (which_sense >= 0 and which_sense <= 3)
         self._assert_body(body_id)
 
-        return self._send_sensor('QuaternionSensor', body_id, which_sense)
+        return self._send_sensor('QuaternionSensor', body_id, which_sense, int( write_back ))
 
-    def send_quaternion_a_sensor(self, body_id):
-        return self.send_quaternion_sensor(body_id, 'a')
+    def send_quaternion_a_sensor(self, body_id, write_back = True ):
+        return self.send_quaternion_sensor(body_id, 'a', write_back )
 
-    def send_quaternion_b_sensor(self, body_id):
-        return self.send_quaternion_sensor(body_id, 'b')
+    def send_quaternion_b_sensor(self, body_id, write_back = True):
+        return self.send_quaternion_sensor(body_id, 'b', write_back )
 
-    def send_quaternion_c_sensor(self, body_id):
-        return self.send_quaternion_sensor(body_id, 'c')
+    def send_quaternion_c_sensor(self, body_id, write_back = True):
+        return self.send_quaternion_sensor(body_id, 'c', write_back )
 
-    def send_quaternion_d_sensor(self, body_id):
-        return self.send_quaternion_sensor(body_id, 'd')
+    def send_quaternion_d_sensor(self, body_id, write_back = True):
+        return self.send_quaternion_sensor(body_id, 'd', write_back)
 
-    def send_proprioceptive_sensor(self, joint_id):
+    def send_proprioceptive_sensor(self, joint_id, write_back = True ):
         """Attach a proprioceptive sensor to the joint.
 
         Proprioceptive sensors return the value of
@@ -171,7 +175,8 @@ class Mixin(object):
         ----------
         joint_id    : int
             The id tag of the joint to attach the sensor to
-
+        write_back  : bool
+            If True, write back to python after simulation. (Default True)
         Returns
         -------
         int
@@ -180,13 +185,13 @@ class Mixin(object):
 
         self._assert_joint(joint_id)
 
-        return self._send_sensor('ProprioceptiveSensor', joint_id)
+        return self._send_sensor('ProprioceptiveSensor', joint_id, int( write_back ) )
 
     # ----- IS SEEN SENSOR ----------------------------------
-    def send_is_seen_sensor( self, body_id ):
+    def send_is_seen_sensor( self, body_id, write_back = True ):
         """Attach a sensor to a body which reports a 1 when 'seen' by
         a ray sensor and a 0 when not 'seen'"""
 
         self._assert_body( body_id )
 
-        return self._send_sensor( 'IsSeenSensor', body_id )
+        return self._send_sensor( 'IsSeenSensor', body_id, int( write_back ) )

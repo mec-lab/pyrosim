@@ -19,6 +19,7 @@ public:
     virtual void readFromPython(void){
         readValueFromPython<int>(&this->rayID, "Ray ID" );
         readValueFromPython<int>(&this->whichSense, "Which Sense");
+        this->readWriteBackFromPython();
     }
 
     virtual void create(Environment *environment){

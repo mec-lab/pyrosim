@@ -38,6 +38,7 @@ public:
 
     void readFromPython(void){
         readValueFromPython<int>(&this->bodyID, "Body ID");
+        this->readWriteBackFromPython();
     }
 };
 

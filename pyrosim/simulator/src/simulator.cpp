@@ -373,9 +373,9 @@ void handleRayCollision(dGeomID ray, dGeomID o2){
     dContact contact;
     int n = dCollide(ray, o2, 1, &contact.geom, sizeof(dContact));
 
-    std::cerr << "N contacts: " << n << std::endl;
+    // std::cerr << "N contacts: " << n << std::endl;
     if (n > 0){
-        std::cerr << "Handling Ray Collision" << std::endl;
+        // std::cerr << "Handling Ray Collision" << std::endl;
         GeomData* rayData = static_cast<GeomData*>(dGeomGetData(ray));
 
         Ray *rayObj = (Ray*) environment->getEntity(rayData->entityID);

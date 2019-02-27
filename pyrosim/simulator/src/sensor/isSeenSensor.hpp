@@ -13,6 +13,7 @@ protected:
 public:
     virtual void readFromPython( void ){
         readValueFromPython<int>( &this->bodyID, "Body ID" );
+        this->readWriteBackFromPython();
     }
 
     virtual void create( Environment *environment ){

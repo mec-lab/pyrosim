@@ -16,6 +16,7 @@ public:
     virtual void readFromPython(void){
         readValueFromPython<int>(&this->bodyID);
         readValueFromPython<int>(&this->whichDimension);
+        this->readWriteBackFromPython();
     }
 
     virtual void create(Environment *environment){
