@@ -43,7 +43,7 @@ class Mixin(object):
 
         return  self._send_sensor('PositionSensor', body_id, which_dimension, int( write_back ) )
 
-    def send_position_x_sensor(self, body_id):
+    def send_position_x_sensor(self, body_id, write_back = True ):
         """Send x position sensor which tracks the body specified in *body_id*"""
         return self.send_position_sensor(body_id, which_dimension='x', write_back = write_back)
 
