@@ -29,22 +29,24 @@ else:
     from . import _sensor
 
 
-class Simulator(_body.Mixin, _joint.Mixin,
-                _actuator.Mixin, _network.Mixin,
+class Simulator(_body.Mixin,
+                _joint.Mixin,
+                _actuator.Mixin,
+                _network.Mixin,
                 _sensor.Mixin):
     """Python Interface for ODE robotics simulator
 
     Attributes
     ----------
-    eval_steps  : int (optional)
+    eval_steps     : int (optional)
         Number of simulated steps (default 100)
-    dt          : float (optional)
+    dt             : float (optional)
         Length of simulated time in seconds of each step (default 0.01)
-    play_blind  : bool (optional)
+    play_blind     : bool (optional)
         Run without graphics (default False)
-    play_paused : bool (optional)
+    play_paused    : bool (optional)
         Start simulation paused (default False)
-    draw_joints : bool ( optional )
+    draw_joints    : bool ( optional )
         Starts simulation with joints drawn on screen. This can be toggled
         while the simulation is running by pressing 'd'. (default False)
     """
@@ -54,6 +56,7 @@ class Simulator(_body.Mixin, _joint.Mixin,
                  dt = 0.01,
                  play_blind = False,
                  play_paused = False,
+                 update_network = 1,
                  draw_joints = False,
                  use_textures = True,
                  draw_shadows = True,
@@ -112,6 +115,45 @@ class Simulator(_body.Mixin, _joint.Mixin,
         self._send('AssignCollision', group1, group2)
         return True
 
+    def get_all_sensor_data( self ):
+        """Outputs all sensor data created by the simulation
+
+        Returns
+        -------
+        dict
+            The sensor dictionary. The keys are is the id of the
+            sensor and the value a list containing the sensory 
+            information at each time step.
+        """
+        return copy.copy( self._sensor_data )
+
+    def get_debug_output(self):
+        """Returns the debug output from the simulation"""
+        return self._strings_to_send + '\n' + self._raw_cerr
+
+    def get_sensor_data(self, sensor_id = None):
+        """Returns the sensor data of the specified sensor at each
+        time step"""
+        
+        if sensor_id is None:
+            return copy.copy( self._sensor_data )
+        else:
+            self._assert_sensor(sensor_id, 'sensor_id')
+            data_to_return = None
+            try:
+                data_to_return = copy.copy( self._sensor_data[sensor_id][:] )
+            except:
+                return None
+                # print( 'Invalid sensor_id' )
+                # print( 'All Data' )
+                # print( self._sensor_data )
+                # print( 'raw output' )
+                # print( self._raw_cerr )
+
+            assert( data_to_return is not None )
+
+            return data_to_return
+    
     def set_current_collision_group(self, group_name):
         """Set the current group name for future bodies to use as default"""
         self._current_collision_group = group_name
@@ -120,12 +162,6 @@ class Simulator(_body.Mixin, _joint.Mixin,
         """Set the current space name for future bodies to use as default"""
 
         self._current_space = space_name
-
-    def set_gravity(self, x=0, y=0, z=-9.8):
-        """Set the gravity for simulation"""
-        self._send_parameter('GravityX', x)
-        self._send_parameter('GravityY', y)
-        self._send_parameter('GravityZ', z)
 
     def set_camera(self, xyz, hpr, tracking = 'none', body_to_track = 0 ):
         """Sets how the camera starts in simulation
@@ -177,6 +213,36 @@ class Simulator(_body.Mixin, _joint.Mixin,
         assert float( mu ) == mu, 'mu must be Infinite or float'
 
         self._send_parameter( 'Friction', mu )
+
+
+    def set_gravity(self, x=0, y=0, z=-9.8):
+        """Set the gravity for simulation"""
+        self._send_parameter('GravityX', x)
+        self._send_parameter('GravityY', y)
+        self._send_parameter('GravityZ', z)
+
+    def set_network_update_interval( self, steps_between_evals ):
+        """The number of evaluation steps between network updates.
+
+        Allows for larger time steps between computing an iteration of the
+        network controller.
+
+        Note
+        ----
+            May produce unexpected results, use with caution.
+
+        Parameters
+        ----------
+        steps_between_evals : int
+            a update_network value of 1 means the network is updated every
+            simulation step, a value of 10 means the network updates
+            every 10 eval steps.
+        """
+        assert( steps_between_evals == int( steps_between_evals ) and
+                steps_between_evals > 0 ), ( 'steps_between_evals ' +
+                                             'must > 0 and an integer')
+
+        self._send_parameter('NetworkUpdate', steps_between_evals )
 
     def start(self):
         """Start the simulation"""
@@ -246,32 +312,6 @@ class Simulator(_body.Mixin, _joint.Mixin,
                 self._raw_cerr[end_index + len(end_str):]
 
         self._read_sensor_data()
-
-    def get_sensor_data(self, sensor_id = None):
-        """Returns the sensor data of the specified sensor at each
-        time step"""
-        
-        if sensor_id is None:
-            return copy.copy( self._sensor_data )
-        else:
-            self._assert_sensor(sensor_id, 'sensor_id')
-            return copy.copy(self._sensor_data[sensor_id][:])
-    
-    def get_all_sensor_data( self ):
-        """Outputs all sensor data created by the simulation
-
-        Returns
-        -------
-        dict
-            The sensor dictionary. The keys are is the id of the
-            sensor and the value a list containing the sensory 
-            information at each time step.
-        """
-        return copy.copy( self._sensor_data )
-
-    def get_debug_output(self):
-        """Returns the debug output from the simulation"""
-        return self._strings_to_send + '\n' + self._raw_cerr
 
     def _read_sensor_data(self):
         # sensor data comes back as a long string of single values delimited by a space 

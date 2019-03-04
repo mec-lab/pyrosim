@@ -1,13 +1,23 @@
 
 class Mixin(object):
-
     def _send_sensor(self, *args):
         return self._send_entity('Sensor', *args)
 
     # ------- LIGHT SENSOR ---------------------
-    def send_light_sensor( self, body_id, write_back = True):
-        """Send a light sensor attached to a body"""
+    def send_light_sensor( self, body_id, write_back = True ):
+        """Send a light sensor embedded within a body
 
+        Parameters
+        body_id     : int
+            The id tag of the specified body
+        write_back  : bool
+            If True, write back to python after simulation. (Default True)
+
+        Returns
+        -------
+        int
+            The id tag of the sensor
+        """
         self._assert_body( body_id, 'body_id' )
         return self._send_sensor( 'LightSensor', body_id, int( write_back ) )
 
@@ -91,15 +101,19 @@ class Mixin(object):
         return self._send_sensor('RaySensor', ray_id, which_sense, int( write_back) )
 
     def send_ray_distance_sensor(self, ray_id, write_back = True ):
+        """Send a distance sensor attached to the ray at *ray_id*"""
         return self.send_ray_sensor(ray_id, which_sense='d', write_back = write_back)
 
     def send_ray_red_sensor(self, ray_id, write_back = True ):
+        """Send a red color sensor attached to the ray at *ray_id*"""
         return self.send_ray_sensor(ray_id, which_sense='r', write_back = write_back)
 
     def send_ray_green_sensor(self, ray_id, write_back = True ):
+        """Send a green color sensor attached to the ray at *ray_id*"""
         return self.send_ray_sensor(ray_id, which_sense='g', write_back = write_back)
 
     def send_ray_blue_sensor(self, ray_id, write_back = True ):
+        """Send a blue color sensor attached to the ray at *ray_id*"""
         return self.send_ray_sensor(ray_id, which_sense='b', write_back = write_back )
 
     # --------------- TOUCH SENSOR -----------------------------------
@@ -190,7 +204,20 @@ class Mixin(object):
     # ----- IS SEEN SENSOR ----------------------------------
     def send_is_seen_sensor( self, body_id, write_back = True ):
         """Attach a sensor to a body which reports a 1 when 'seen' by
-        a ray sensor and a 0 when not 'seen'"""
+        a ray sensor and a 0 when not 'seen' 
+        
+        Parameters
+        ----------
+        body_id    : int
+            The id tag of the body to attach sensor to
+        write_back : bool
+            If True, write back to python after simulation. (Default True)
+
+        Returns
+        -------
+        int
+            The id tag of the sensor
+        """
 
         self._assert_body( body_id )
 

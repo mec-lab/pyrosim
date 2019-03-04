@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Getting Started" href="overview.html" /> 
+    <link rel="prev" title="Simulator Settings" href="examples/00_basic.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -150,7 +150,7 @@
 <span id="code"></span><h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="pyrosim.Simulator">
-<em class="property">class </em><code class="descclassname">pyrosim.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>eval_steps=100</em>, <em>dt=0.01</em>, <em>play_blind=False</em>, <em>play_paused=False</em>, <em>draw_joints=False</em>, <em>use_textures=True</em>, <em>draw_shadows=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pyrosim.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>eval_steps=100</em>, <em>dt=0.01</em>, <em>play_blind=False</em>, <em>play_paused=False</em>, <em>update_network=1</em>, <em>draw_joints=False</em>, <em>use_textures=True</em>, <em>draw_shadows=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Python Interface for ODE robotics simulator</p>
 <dl class="attribute">
 <dt id="pyrosim.Simulator.eval_steps">
@@ -528,9 +528,51 @@ None meaning there are no stops)</li>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.send_is_seen_sensor">
-<code class="descname">send_is_seen_sensor</code><span class="sig-paren">(</span><em>body_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_is_seen_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_is_seen_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_is_seen_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attach a sensor to a body which reports a 1 when ‘seen’ by
 a ray sensor and a 0 when not ‘seen’</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>body_id</strong> (<em>int</em>) – The id tag of the body to attach sensor to</li>
+<li><strong>write_back</strong> (<em>bool</em>) – If True, write back to python after simulation. (Default True)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The id tag of the sensor</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrosim.Simulator.send_light_sensor">
+<code class="descname">send_light_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_light_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a light sensor embedded within a body</p>
+<p>Parameters
+body_id     : int</p>
+<blockquote>
+<div>The id tag of the specified body</div></blockquote>
+<dl class="docutils">
+<dt>write_back <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>If True, write back to python after simulation. (Default True)</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The id tag of the sensor</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -607,7 +649,7 @@ not start at 0. (default is 0)</li>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.send_position_sensor">
-<code class="descname">send_position_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>which_dimension='x'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_position_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_position_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>which_dimension='x'</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_position_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send position sensor which tracks the body specified in body_id</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -617,6 +659,7 @@ not start at 0. (default is 0)</li>
 <li><strong>body_id</strong> (<em>int</em>) – The id tag of the specifed body</li>
 <li><strong>which_dimension</strong> (<em>str</em><em> or </em><em>int</em><em> (</em><em>optional</em><em>)</em>) – Specifies which dimension to track: ‘x’, ‘y’, or ‘z’.
 You can also use 0, 1, or 2. (default is ‘x’)</li>
+<li><strong>write_back</strong> (<em>bool</em>) – If True, write back to python after simulation. (Default True)</li>
 </ul>
 </td>
 </tr>
@@ -632,25 +675,25 @@ You can also use 0, 1, or 2. (default is ‘x’)</li>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.send_position_x_sensor">
-<code class="descname">send_position_x_sensor</code><span class="sig-paren">(</span><em>body_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_position_x_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_position_x_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_position_x_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send x position sensor which tracks the body specified in <em>body_id</em></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.send_position_y_sensor">
-<code class="descname">send_position_y_sensor</code><span class="sig-paren">(</span><em>body_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_position_y_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_position_y_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_position_y_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send y position sensor which tracks the body specified in <em>body_id</em></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.send_position_z_sensor">
-<code class="descname">send_position_z_sensor</code><span class="sig-paren">(</span><em>body_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_position_z_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_position_z_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_position_z_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send z position sensor which tracks the body specified in <em>body_id</em></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.send_proprioceptive_sensor">
-<code class="descname">send_proprioceptive_sensor</code><span class="sig-paren">(</span><em>joint_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_proprioceptive_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_proprioceptive_sensor</code><span class="sig-paren">(</span><em>joint_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_proprioceptive_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attach a proprioceptive sensor to the joint.</p>
 <p>Proprioceptive sensors return the value of
 the joint at each time step. For example, a hinge
@@ -665,11 +708,17 @@ Attached proprioceptive sensors will only return 0.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>joint_id</strong> (<em>int</em>) – The id tag of the joint to attach the sensor to</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>joint_id</strong> (<em>int</em>) – The id tag of the joint to attach the sensor to</li>
+<li><strong>write_back</strong> (<em>bool</em>) – If True, write back to python after simulation. (Default True)</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The id tag of the sensor</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The id tag of the sensor</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -677,7 +726,7 @@ Attached proprioceptive sensors will only return 0.</p>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.send_quaternion_sensor">
-<code class="descname">send_quaternion_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>which_sense='a'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_quaternion_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_quaternion_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>which_sense='a'</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_quaternion_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attach a vestibular sensor returning the quaternion of the body.</p>
 <p>Quaternions is 4 element vector which can represent the rotation of
 a body. It’s components are a, b, c, and d. You can also use
@@ -706,8 +755,32 @@ w, x, y, and z. Read more here:
 </dd></dl>
 
 <dl class="method">
+<dt id="pyrosim.Simulator.send_ray_blue_sensor">
+<code class="descname">send_ray_blue_sensor</code><span class="sig-paren">(</span><em>ray_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_ray_blue_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a blue color sensor attached to the ray at <em>ray_id</em></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrosim.Simulator.send_ray_distance_sensor">
+<code class="descname">send_ray_distance_sensor</code><span class="sig-paren">(</span><em>ray_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_ray_distance_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a distance sensor attached to the ray at <em>ray_id</em></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrosim.Simulator.send_ray_green_sensor">
+<code class="descname">send_ray_green_sensor</code><span class="sig-paren">(</span><em>ray_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_ray_green_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a green color sensor attached to the ray at <em>ray_id</em></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrosim.Simulator.send_ray_red_sensor">
+<code class="descname">send_ray_red_sensor</code><span class="sig-paren">(</span><em>ray_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_ray_red_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a red color sensor attached to the ray at <em>ray_id</em></p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyrosim.Simulator.send_ray_sensor">
-<code class="descname">send_ray_sensor</code><span class="sig-paren">(</span><em>ray_id</em>, <em>which_sense='d'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_ray_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_ray_sensor</code><span class="sig-paren">(</span><em>ray_id</em>, <em>which_sense='d'</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_ray_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends a ray sensor to the simulator.</p>
 <p>Ray sensors connect to ray entities. They can return the distance
 to this object or the color of this object (r, g, b).</p>
@@ -719,6 +792,7 @@ to this object or the color of this object (r, g, b).</p>
 <li><strong>ray_id</strong> (<em>int</em>) – The id tag of the ray to attach to.</li>
 <li><strong>which_sense</strong> (<em>str</em><em> or </em><em>int</em><em> (</em><em>optional</em><em>)</em>) – Specifies which sense of the ray to return.
 Use ‘d’ for distance, ‘r’ for red, ‘g’ for green, ‘b’ for blue.</li>
+<li><strong>write_back</strong> (<em>bool</em>) – If True, write back to python after simulation. (Default True)</li>
 </ul>
 </td>
 </tr>
@@ -902,7 +976,7 @@ set <cite>direction</cite> to be upward, i.e. <cite>direction = (0, 0, 1)</cite>
 
 <dl class="method">
 <dt id="pyrosim.Simulator.send_touch_sensor">
-<code class="descname">send_touch_sensor</code><span class="sig-paren">(</span><em>body_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_touch_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_touch_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_touch_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attach a touch sensor to a body</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -910,9 +984,11 @@ set <cite>direction</cite> to be upward, i.e. <cite>direction = (0, 0, 1)</cite>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>body_id</strong> (<em>int</em>) – The id tag of the body to attach the sensor to</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The id tag of the sensor</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><em>int</em> – The id tag of the sensor</li>
+<li><strong>write_back</strong> (<em>bool</em>) – If True, write back to python after simulation. (Default True)</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1009,6 +1085,28 @@ time is longer than the length of the list, the values will be repeated</td>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyrosim.Simulator.set_network_update_interval">
+<code class="descname">set_network_update_interval</code><span class="sig-paren">(</span><em>steps_between_evals</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_network_update_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_network_update_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of evaluation steps between network updates.</p>
+<p>Allows for larger time steps between computing an iteration of the
+network controller.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">May produce unexpected results, use with caution.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>int</strong> (<em>steps_between_evals</em><em>,</em>) – a update_network value of 1 means the network is updated every
+simulation step, a value of 10 means the network updates
+every 10 eval steps.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyrosim.Simulator.start">
 <code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the simulation</p>
@@ -1038,7 +1136,7 @@ in order for the simulation to run properly.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="overview.html" class="btn btn-neutral" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="examples/00_basic.html" class="btn btn-neutral" title="Simulator Settings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -7,7 +7,6 @@ DT = 0.01
 # toggle joint drawing by pressing 'd'
 sim = pyrosim.Simulator(eval_steps=-1, play_paused=True, dt=DT)
 
-
 cyl = sim.send_cylinder(position=(0.25, 0, 1),
                         orientation=(1, 0, 0),
                         length=0.5)

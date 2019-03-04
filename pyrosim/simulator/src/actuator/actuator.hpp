@@ -27,7 +27,7 @@ public:
 
     virtual void resetNextInput(){
         this->lastInput = nextInput;
-        this->nextInput = 0.0;
+        // this->nextInput = 0.0;
     }
 
     virtual void takeStep(int timeStep, dReal dt) { this->actuate(dt); }

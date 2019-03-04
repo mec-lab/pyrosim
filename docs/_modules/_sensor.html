@@ -150,13 +150,26 @@
     <span class="k">def</span> <span class="nf">_send_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_entity</span><span class="p">(</span><span class="s1">&#39;Sensor&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_light_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span> <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;body_id&#39;</span> <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span> <span class="s1">&#39;LightSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span> <span class="p">)</span>
+    <span class="c1"># ------- LIGHT SENSOR ---------------------</span>
+    <span class="k">def</span> <span class="nf">send_light_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a light sensor embedded within a body</span>
 
+<span class="sd">        Parameters</span>
+<span class="sd">        body_id     : int</span>
+<span class="sd">            The id tag of the specified body</span>
+<span class="sd">        write_back  : bool</span>
+<span class="sd">            If True, write back to python after simulation. (Default True)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the sensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;body_id&#39;</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span> <span class="s1">&#39;LightSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="n">write_back</span> <span class="p">)</span> <span class="p">)</span>
 
     <span class="c1"># ------------ POSITION SENSOR -----------------------------</span>
-    <span class="k">def</span> <span class="nf">send_position_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_position_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Send position sensor which tracks the body specified in body_id</span>
 
 <span class="sd">        Parameters</span>
@@ -166,7 +179,8 @@
 <span class="sd">        which_dimension : str or int (optional)</span>
 <span class="sd">            Specifies which dimension to track: &#39;x&#39;, &#39;y&#39;, or &#39;z&#39;.</span>
 <span class="sd">            You can also use 0, 1, or 2. (default is &#39;x&#39;)</span>
-
+<span class="sd">        write_back  : bool</span>
+<span class="sd">            If True, write back to python after simulation. (Default True)</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        int</span>
@@ -184,22 +198,22 @@
         <span class="k">assert</span> <span class="n">which_dimension</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">which_dimension</span> <span class="o">&lt;=</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Which dimension must be x, y, or z&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;body_id&#39;</span><span class="p">)</span>
 
-        <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;PositionSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="p">)</span>
+        <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;PositionSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="n">write_back</span> <span class="p">)</span> <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_position_x_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_position_x_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Send x position sensor which tracks the body specified in *body_id*&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="n">write_back</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_position_y_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_position_y_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Send y position sensor which tracks the body specified in *body_id*&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="n">write_back</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_position_z_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_position_z_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Send z position sensor which tracks the body specified in *body_id*&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_position_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="n">which_dimension</span><span class="o">=</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="n">write_back</span><span class="p">)</span>
 
     <span class="c1"># ----------- RAY SENSOR ------------------------------------</span>
-    <span class="k">def</span> <span class="nf">send_ray_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_ray_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">write_back</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sends a ray sensor to the simulator.</span>
 
@@ -213,7 +227,8 @@
 <span class="sd">        which_sense : str or int (optional)</span>
 <span class="sd">            Specifies which sense of the ray to return.</span>
 <span class="sd">            Use &#39;d&#39; for distance, &#39;r&#39; for red, &#39;g&#39; for green, &#39;b&#39; for blue.</span>
-<span class="sd">        </span>
+<span class="sd">        write_back  : bool</span>
+<span class="sd">            If True, write back to python after simulation. (Default True)</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        int</span>
@@ -230,22 +245,26 @@
 
         <span class="k">assert</span> <span class="n">which_sense</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">which_sense</span> <span class="o">&lt;=</span><span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Which sense must be d, r, g, b or 0, 1, 2, 3&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="s1">&#39;ray_id&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;RaySensor&#39;</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;RaySensor&#39;</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="n">write_back</span><span class="p">)</span> <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_ray_distance_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span> <span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">send_ray_distance_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a distance sensor attached to the ray at *ray_id*&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="n">write_back</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_ray_red_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span> <span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">send_ray_red_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a red color sensor attached to the ray at *ray_id*&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="n">write_back</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_ray_green_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span> <span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">send_ray_green_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a green color sensor attached to the ray at *ray_id*&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="n">write_back</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_ray_blue_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span> <span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">send_ray_blue_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ray_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a blue color sensor attached to the ray at *ray_id*&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_ray_sensor</span><span class="p">(</span><span class="n">ray_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="n">write_back</span> <span class="p">)</span>
 
     <span class="c1"># --------------- TOUCH SENSOR -----------------------------------</span>
-    <span class="k">def</span> <span class="nf">send_touch_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_touch_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Attach a touch sensor to a body</span>
 
 <span class="sd">        Parameters</span>
@@ -257,15 +276,17 @@
 <span class="sd">        -------</span>
 <span class="sd">        int</span>
 <span class="sd">            The id tag of the sensor</span>
+<span class="sd">        write_back  : bool</span>
+<span class="sd">            If True, write back to python after simulation. (Default True)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;TouchSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;TouchSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="n">write_back</span> <span class="p">)</span> <span class="p">)</span>
 
 
     <span class="c1"># ------------- QUATERNION SENSOR --------------------------------</span>
-    <span class="k">def</span> <span class="nf">send_quaternion_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_quaternion_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Attach a vestibular sensor returning the quaternion of the body.</span>
 
 <span class="sd">        Quaternions is 4 element vector which can represent the rotation of </span>
@@ -285,21 +306,21 @@
         <span class="k">assert</span> <span class="p">(</span><span class="n">which_sense</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">which_sense</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span><span class="n">body_id</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;QuaternionSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;QuaternionSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">which_sense</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="n">write_back</span> <span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">send_quaternion_a_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">send_quaternion_a_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_quaternion_b_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">send_quaternion_b_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_quaternion_c_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">send_quaternion_c_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">write_back</span> <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_quaternion_d_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">send_quaternion_d_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_quaternion_sensor</span><span class="p">(</span><span class="n">body_id</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">write_back</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_proprioceptive_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_id</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_proprioceptive_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Attach a proprioceptive sensor to the joint.</span>
 
 <span class="sd">        Proprioceptive sensors return the value of</span>
@@ -315,7 +336,8 @@
 <span class="sd">        ----------</span>
 <span class="sd">        joint_id    : int</span>
 <span class="sd">            The id tag of the joint to attach the sensor to</span>
-
+<span class="sd">        write_back  : bool</span>
+<span class="sd">            If True, write back to python after simulation. (Default True)</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        int</span>
@@ -324,16 +346,29 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_joint</span><span class="p">(</span><span class="n">joint_id</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;ProprioceptiveSensor&#39;</span><span class="p">,</span> <span class="n">joint_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span><span class="s1">&#39;ProprioceptiveSensor&#39;</span><span class="p">,</span> <span class="n">joint_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="n">write_back</span> <span class="p">)</span> <span class="p">)</span>
 
     <span class="c1"># ----- IS SEEN SENSOR ----------------------------------</span>
-    <span class="k">def</span> <span class="nf">send_is_seen_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_is_seen_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Attach a sensor to a body which reports a 1 when &#39;seen&#39; by</span>
-<span class="sd">        a ray sensor and a 0 when not &#39;seen&#39;&quot;&quot;&quot;</span>
+<span class="sd">        a ray sensor and a 0 when not &#39;seen&#39; </span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body_id    : int</span>
+<span class="sd">            The id tag of the body to attach sensor to</span>
+<span class="sd">        write_back : bool</span>
+<span class="sd">            If True, write back to python after simulation. (Default True)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The id tag of the sensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body_id</span> <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span> <span class="s1">&#39;IsSeenSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span> <span class="s1">&#39;IsSeenSensor&#39;</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="n">write_back</span> <span class="p">)</span> <span class="p">)</span>
 </pre></div>
 
            </div>

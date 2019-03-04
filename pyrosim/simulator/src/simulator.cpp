@@ -328,11 +328,17 @@ void initializeParameters(void){
     parameters["Friction"] = dInfinity;
 
     parameters["DrawJoints"] = 0.0;
+
+    parameters["NetworkUpdate"] = 1.0;
 }
 
 void simulationStep(void){
-    // // place action before collision detection?
-    environment->takeStep(evalStep, parameters["DT"]);
+    // check if correct time to update network
+    int updateNetwork = false;
+    if ( evalStep % int( parameters["NetworkUpdate"] ) == 0 ){
+        updateNetwork = true;
+    }
+    environment->takeStep(evalStep, parameters["DT"], updateNetwork );
     environment->emptyCollisionPairs();
     dSpaceCollide(topspace, 0, &nearCallback); // run collision
     dWorldStep(world, parameters["DT"]); // take time step

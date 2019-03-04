@@ -32,33 +32,75 @@ public:
     Environment(dWorldID world, dSpaceID topspace, int numEntities = 50);
     ~Environment();
 
-    // add to an existing entity using input from python
+    /**
+        Adds an entity by reading in from python
+    */
     void addToEntityFromPython(void);
 
+    /**
+        Adds a collision pair between groups to the `collisions` map
+
+        @param firstID  - the id of the first group
+        @param secondID - the id of the second collision group
+    */
     void addCollisionPair(int firstID, int secondID);
+
+    // Clears all collision pairs
     void emptyCollisionPairs(void);
     
-    // add new uninitialized entity to entities
-    // and read in contents from python to that entity
+    // Reads an entities contents from python
     void readEntityFromPython(void);
 
     // create entities in simualiton
     void createInODE(void);
 
-    // draw entities. Toggles for joints and spaces
+    /**
+        Draws entities to graphics window
+
+        @param drawJoints - If true, visualize joints
+        @param drawSpaces - If true, draw spaces as boxes
+    */
     void draw(int drawJoints, int drawSpaces);
 
+    // Return ODE world variable
     dWorldID getWorld(){return this->world;};
-    // returns spaces
-    // in the future will be a map of space names to allow for using subspaces
+
+    /**
+        Gets the named space from the ODE world
+        
+        @param name - the string literal referring to the space
+        @return The space
+    */
     dSpaceID getSpace(std::string name);
+
+    /**
+        Create a space and put it in the space map
+
+        @param name - the string literal to refer to the space as
+    */
     void createSpace(std::string name);
 
+    // Returns entity with id i
     Entity* getEntity(int i);
-    // Actuator* getActuator(int i);
+
+    /**
+        Take environmental step
+
+        @param timeStep      - the current time step
+        @param dt            - the space between steps
+        @param updateNetwork - whether or not to update network during step
+    */      
+    void takeStep(int timeStep, dReal dt, int updateNetwork);
+
+    /**
+        Take a step with the specified entities
+
+        @param entityIDs - the entities to step with
+        @param timeStep  - the current time step
+        @param dt        - the space between steps
+    */
+    void takeStepWithEntities(std::vector<int> entityIDs, int timeStep, dReal dt);
     
-    void takeStep(int timeStep, dReal dt);
-    void takeStep(std::vector<int> entityIDs, int timeStep, dReal dt);
     // write entities to python
     void writeToPython(void);
 
