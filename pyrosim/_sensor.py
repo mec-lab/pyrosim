@@ -3,11 +3,25 @@ class Mixin(object):
     def _send_sensor(self, *args):
         return self._send_entity('Sensor', *args)
 
+    def send_distance_to_sensor( self, body1_id, body2_id, write_back = True ):
+        """Send a distance sensor which measures the distance between body1 and body2
+
+
+        Parameters
+        ----------
+        """
+
+        self._assert_body( body1_id, 'body1_id' )
+        self._assert_body( body2_id, 'body2_id' )
+
+        return self._send_sensor( 'DistanceToSensor', body1_id, body2_id, int( write_back ))
+
     # ------- LIGHT SENSOR ---------------------
     def send_light_sensor( self, body_id, write_back = True ):
         """Send a light sensor embedded within a body
 
         Parameters
+        ----------
         body_id     : int
             The id tag of the specified body
         write_back  : bool

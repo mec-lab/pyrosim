@@ -18,6 +18,7 @@ public:
 
     virtual void create( Environment *environment ){
         this->body = (RigidBody *) environment->getEntity( this->bodyID );
+        this->currentSensorValue = 0.0f;
     }
 
     void sense(){

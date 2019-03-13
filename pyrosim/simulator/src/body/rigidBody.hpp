@@ -100,7 +100,8 @@ public:
     virtual void create(Environment *environment){
         std::cerr << "Creating Rigid Body" << std::endl;
         this->body = dBodyCreate(environment->getWorld());
-
+        this->isSeen = false;
+        
         // if only one geom attached, create using non-offset
         // otherwise offset is necessary
         if (this->geoms.size() == 1){

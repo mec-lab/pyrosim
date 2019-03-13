@@ -207,6 +207,19 @@ class Simulator(_body.Mixin,
         self._send_parameter( 'CameraBody', body_to_track )
 
     def set_friction( self, mu = 'Infinite' ):
+        """Set the friction parameter
+
+        Note
+        ----
+        `mu` is a single parameter in ODEs more complex friction model.
+        In general lower `mu` will create a simulation with less friction.
+
+        Parameters
+        ----------
+        mu : float (optional)
+            Determines how friction is calculated in simulation. 
+            Higher implies more friction. (Default is 'infinite')
+        """
 
         if mu == 'Infinite':
             mu = -1.0
