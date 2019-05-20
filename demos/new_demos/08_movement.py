@@ -30,7 +30,7 @@ linear_motor = sim.send_linear_actuator(slider)
 
 # create sine wave as input
 t_values = np.arange(0, np.pi * 2, DT)
-input_values = np.tanh (4 * np.sin ( t_values ) )
+input_values = 2.0 * np.tanh (4 * np.sin ( t_values ) )
 input_neuron = sim.send_user_neuron(input_values)
 
 # motor neurons correspondnig to actuators

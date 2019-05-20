@@ -36,6 +36,8 @@ public:
 
     // draws entity (may be unused)
     virtual void draw(void){};
+
+    // takes step. could be a sensor sensing or an actuator actuating, etc.
     virtual void takeStep(int timeStep, dReal dt) {};
 
     // writes output to cerr (may be unused)

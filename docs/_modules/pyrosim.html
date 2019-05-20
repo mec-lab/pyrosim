@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="../_static/icon32-scaled.ico"/>
+  
   
   
 
@@ -80,6 +82,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
 </ul>
 
@@ -195,6 +198,8 @@
 <span class="sd">    draw_joints    : bool ( optional )</span>
 <span class="sd">        Starts simulation with joints drawn on screen. This can be toggled</span>
 <span class="sd">        while the simulation is running by pressing &#39;d&#39;. (default False)</span>
+<span class="sd">    draw_shadows   : bool ( optional )</span>
+<span class="sd">        If true, shadows are cast by the bodies in simulation. (default True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -202,7 +207,6 @@
                  <span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
                  <span class="n">play_blind</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                  <span class="n">play_paused</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">update_network</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                  <span class="n">draw_joints</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                  <span class="n">use_textures</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="n">draw_shadows</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -352,13 +356,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span> <span class="s1">&#39;CameraTracking&#39;</span><span class="p">,</span> <span class="n">tracking</span> <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span> <span class="s1">&#39;CameraBody&#39;</span><span class="p">,</span> <span class="n">body_to_track</span> <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">set_friction</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="s1">&#39;Infinite&#39;</span> <span class="p">):</span>
+<div class="viewcode-block" id="Simulator.set_friction"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_friction">[docs]</a>    <span class="k">def</span> <span class="nf">set_friction</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="s1">&#39;Infinite&#39;</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the friction parameter</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        `mu` is a single parameter in ODEs more complex friction model.</span>
+<span class="sd">        In general lower `mu` will create a simulation with less friction.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mu : float (optional)</span>
+<span class="sd">            Determines how friction is calculated in simulation. </span>
+<span class="sd">            Higher implies more friction. (Default is &#39;infinite&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">mu</span> <span class="o">==</span> <span class="s1">&#39;Infinite&#39;</span><span class="p">:</span>
             <span class="n">mu</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
         <span class="k">assert</span> <span class="nb">float</span><span class="p">(</span> <span class="n">mu</span> <span class="p">)</span> <span class="o">==</span> <span class="n">mu</span><span class="p">,</span> <span class="s1">&#39;mu must be Infinite or float&#39;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span> <span class="s1">&#39;Friction&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span> <span class="s1">&#39;Friction&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Simulator.set_gravity"><a class="viewcode-back" href="../code.html#pyrosim.Simulator.set_gravity">[docs]</a>    <span class="k">def</span> <span class="nf">set_gravity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=-</span><span class="mf">9.8</span><span class="p">):</span>
@@ -379,7 +396,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        steps_between_evals, int</span>
+<span class="sd">        steps_between_evals : int</span>
 <span class="sd">            a update_network value of 1 means the network is updated every</span>
 <span class="sd">            simulation step, a value of 10 means the network updates</span>
 <span class="sd">            every 10 eval steps.</span>
@@ -528,31 +545,31 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;EvalSteps&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eval_steps</span><span class="p">))</span>
         <span class="c1"># send DT</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;DT&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dt</span><span class="p">)</span>
-
         <span class="c1"># send initial draw state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;DrawJoints&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_joints</span> <span class="p">)</span> <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_assert_entity</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="n">entity_type</span> <span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="n">entity_type</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag&#39;</span> <span class="o">+</span>
+                                                        <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span>
+                                                        <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span>
+                                                        <span class="s1">&#39;does not correspond to&#39;</span> <span class="o">+</span>
+                                                        <span class="nb">str</span><span class="p">(</span><span class="n">entity_type</span><span class="p">)</span> <span class="p">)</span>
     <span class="k">def</span> <span class="nf">_assert_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">id_tag</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="k">return</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Body&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
-                                                  <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to body&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_entity</span><span class="p">(</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="s1">&#39;Body&#39;</span> <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_assert_actuator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Actuator&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
-                                                      <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to actuator&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_entity</span><span class="p">(</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="s1">&#39;Actuator&#39;</span> <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_assert_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Joint&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
-                                                   <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to joint&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_entity</span><span class="p">(</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="s1">&#39;Joint&#39;</span> <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_assert_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Sensor&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
-                                                    <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to sensor&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_entity</span><span class="p">(</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="s1">&#39;Sensor&#39;</span> <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_assert_neuron</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entities</span><span class="p">[</span><span class="n">id_tag</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Neuron&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;Input id tag &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span>
-                                                    <span class="nb">str</span><span class="p">(</span><span class="n">id_tag</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39; does not correspond to neuron&#39;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_entity</span><span class="p">(</span> <span class="n">id_tag</span><span class="p">,</span> <span class="n">tag_name</span><span class="p">,</span> <span class="s1">&#39;Neuron&#39;</span> <span class="p">)</span></div>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 

@@ -49,6 +49,8 @@ class Simulator(_body.Mixin,
     draw_joints    : bool ( optional )
         Starts simulation with joints drawn on screen. This can be toggled
         while the simulation is running by pressing 'd'. (default False)
+    draw_shadows   : bool ( optional )
+        If true, shadows are cast by the bodies in simulation. (default True)
     """
 
     def __init__(self,
@@ -56,7 +58,6 @@ class Simulator(_body.Mixin,
                  dt = 0.01,
                  play_blind = False,
                  play_paused = False,
-                 update_network = 1,
                  draw_joints = False,
                  use_textures = True,
                  draw_shadows = True,
@@ -395,31 +396,31 @@ class Simulator(_body.Mixin,
         self._send_parameter('EvalSteps', int(self._eval_steps))
         # send DT
         self._send_parameter('DT', self._dt)
-
         # send initial draw state
         self._send_parameter('DrawJoints', int( self._draw_joints ) )
 
+    def _assert_entity( self, id_tag, tag_name, entity_type ):
+        assert self._entities[id_tag] == entity_type, ('Input id tag' +
+                                                        str(tag_name) + ':' +
+                                                        str(id_tag) +
+                                                        'does not correspond to' +
+                                                        str(entity_type) )
     def _assert_body(self, id_tag, tag_name=''):
         if (id_tag == -1):
             return
-        assert self._entities[id_tag] == 'Body', ('Input id tag ' + str(tag_name) + ': ' +
-                                                  str(id_tag) +' does not correspond to body')
+        self._assert_entity( id_tag, tag_name, 'Body' )
 
     def _assert_actuator(self, id_tag, tag_name=''):
-        assert self._entities[id_tag] == 'Actuator', ('Input id tag ' + str(tag_name) + ': ' +
-                                                      str(id_tag) +' does not correspond to actuator')
+        self._assert_entity( id_tag, tag_name, 'Actuator' )
 
     def _assert_joint(self, id_tag, tag_name=''):
-        assert self._entities[id_tag] == 'Joint', ('Input id tag ' + str(tag_name) + ': ' +
-                                                   str(id_tag) +' does not correspond to joint')
+        self._assert_entity( id_tag, tag_name, 'Joint' )
 
     def _assert_sensor(self, id_tag, tag_name=''):
-        assert self._entities[id_tag] == 'Sensor', ('Input id tag ' + str(tag_name) + ': ' +
-                                                    str(id_tag) +' does not correspond to sensor')
+        self._assert_entity( id_tag, tag_name, 'Sensor' )
 
     def _assert_neuron(self, id_tag, tag_name=''):
-        assert self._entities[id_tag] == 'Neuron', ('Input id tag ' + str(tag_name) + ': ' +
-                                                    str(id_tag) +' does not correspond to neuron')
+        self._assert_entity( id_tag, tag_name, 'Neuron' )
 
 if __name__ == '__main__':
 

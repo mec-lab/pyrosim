@@ -7,11 +7,12 @@ Welcome to pyrosim's documentation!
 ===================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    installation
    overview
+   advanced
    code
 
 Indices and tables

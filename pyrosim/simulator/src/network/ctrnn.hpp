@@ -5,6 +5,7 @@
 
 #include <math.h>
 #include <vector>
+#include <string>
 
 #include "entity.hpp"
 #include "pythonReader.hpp"
@@ -36,13 +37,13 @@ public:
             this->lastUpdated = timeStep;
         }
         else{
-            this->updateStep();
+            this->updateStep( dt );
         }
     }
 
     virtual EntityType getEntityType(void){return NEURON;};
     virtual void fireStep() =0;
-    virtual void updateStep() =0;
+    virtual void updateStep( dReal dt ) =0;
 };
 
 
@@ -87,7 +88,7 @@ public:
     }
     virtual void fireStep(){ this->fire(); }
     virtual void readFromPython(void) =0;
-    virtual void updateStep()=0;
+    virtual void updateStep( dReal dt )=0;
 };
 
 
@@ -98,7 +99,7 @@ public:
     virtual void readFromPython(void){
         readValueFromPython(&this->value, "Bias Value");
     }
-    virtual void updateStep(){cachedValue = 0.0f; };
+    virtual void updateStep( dReal dt ){cachedValue = 0.0f; };
 };
 
 class SensorNeuron : public InputNeuron
@@ -108,7 +109,7 @@ protected:
     int sensorID;
 public:
     SensorNeuron(){};
-    virtual void updateStep(){
+    virtual void updateStep( dReal dt ){
         cachedValue = 0.0f;
         this->value = this->sensor->getSensorValue();
     }
@@ -146,7 +147,7 @@ public:
         }
         this->indexValue = 0;
     }
-    virtual void updateStep(){
+    virtual void updateStep( dReal dt ){
         this->cachedValue = 0.0f;
         // set value from inputValues
         this->value = this->inputValues[this->indexValue];
@@ -160,6 +161,10 @@ public:
 class TargetableNeuron : public Neuron
 {
 protected:
+    float bias;
+    std::string activationFunction;
+    float dydt;
+
     float lastValue;
     float cachedValue;
     float alpha, tau;
@@ -171,9 +176,11 @@ public:
         this->cachedValue += neuronValue * weight;
     }
 
-    void updateNeuronFromCache(){
+    void updateNeuronFromCache( dReal dt ){
         // ctrnn update. then reset cache
-        this->value = this->alpha * this->value + this->tau * this->cachedValue;
+        // this->value = this->alpha * this->value + this->tau * this->cachedValue;
+        this->dydt = ( -this->value + tanh( this->bias + this->cachedValue ) ) / this->tau;
+        this->value += dt * this->dydt;
         this->cachedValue = 0.0f;
     }
 
@@ -185,7 +192,7 @@ public:
     }
     virtual void threshold(){
         // use tanh to threshold
-        this->value = tanh(this->value);
+        // this->value = tanh(this->value);
     }
 
     virtual void fire(){
@@ -200,9 +207,9 @@ public:
         this->fire();
     }
 
-    virtual void updateStep(){
-        this->updateNeuronFromCache();
-        this->threshold();
+    virtual void updateStep( dReal dt ){
+        this->updateNeuronFromCache( dt );
+        // this->threshold();
     }
 };
 
@@ -230,10 +237,16 @@ protected:
 public:
     MotorNeuron(){};
 
-    virtual void updateStep(){
-        this->updateNeuronFromCache();
-        this->threshold();
-        motor->setNextInput(this->value);
+    virtual void updateStep( dReal dt ){
+        this->updateNeuronFromCache(dt);
+        // threshold motor values
+        if ( this->value > 1.0 ){
+            motor->setNextInput( 1.0 );
+        } else if ( this->value < -1.0 ){
+            motor->setNextInput( -1.0 );
+        } else{
+            motor->setNextInput(this->value);
+        }
     }
 
     virtual void create(Environment *environment){

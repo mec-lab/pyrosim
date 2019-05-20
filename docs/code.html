@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="_static/icon32-scaled.ico"/>
+  
   
   
 
@@ -28,7 +30,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Simulator Settings" href="examples/00_basic.html" /> 
+    <link rel="prev" title="Advanced Options" href="advanced.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,6 +83,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Options</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Code Documentation</a></li>
 </ul>
 
@@ -150,7 +153,7 @@
 <span id="code"></span><h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="pyrosim.Simulator">
-<em class="property">class </em><code class="descclassname">pyrosim.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>eval_steps=100</em>, <em>dt=0.01</em>, <em>play_blind=False</em>, <em>play_paused=False</em>, <em>update_network=1</em>, <em>draw_joints=False</em>, <em>use_textures=True</em>, <em>draw_shadows=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pyrosim.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>eval_steps=100</em>, <em>dt=0.01</em>, <em>play_blind=False</em>, <em>play_paused=False</em>, <em>draw_joints=False</em>, <em>use_textures=True</em>, <em>draw_shadows=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Python Interface for ODE robotics simulator</p>
 <dl class="attribute">
 <dt id="pyrosim.Simulator.eval_steps">
@@ -181,6 +184,12 @@
 <code class="descname">draw_joints</code><a class="headerlink" href="#pyrosim.Simulator.draw_joints" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>bool ( optional )</em> – Starts simulation with joints drawn on screen. This can be toggled
 while the simulation is running by pressing ‘d’. (default False)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrosim.Simulator.draw_shadows">
+<code class="descname">draw_shadows</code><a class="headerlink" href="#pyrosim.Simulator.draw_shadows" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool ( optional )</em> – If true, shadows are cast by the bodies in simulation. (default True)</p>
 </dd></dl>
 
 <dl class="method">
@@ -455,6 +464,12 @@ the string set by <a class="reference internal" href="#pyrosim.Simulator.set_cur
 </dd></dl>
 
 <dl class="method">
+<dt id="pyrosim.Simulator.send_distance_to_sensor">
+<code class="descname">send_distance_to_sensor</code><span class="sig-paren">(</span><em>body1_id</em>, <em>body2_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_distance_to_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a distance sensor which measures the distance between body1 and body2</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyrosim.Simulator.send_height_map">
 <code class="descname">send_height_map</code><span class="sig-paren">(</span><em>height_matrix</em>, <em>position=(0</em>, <em>0</em>, <em>0)</em>, <em>size=10.0</em>, <em>height_scale=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_height_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a height map to the simulator</p>
@@ -555,21 +570,21 @@ a ray sensor and a 0 when not ‘seen’</p>
 <dt id="pyrosim.Simulator.send_light_sensor">
 <code class="descname">send_light_sensor</code><span class="sig-paren">(</span><em>body_id</em>, <em>write_back=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrosim.Simulator.send_light_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a light sensor embedded within a body</p>
-<p>Parameters
-body_id     : int</p>
-<blockquote>
-<div>The id tag of the specified body</div></blockquote>
-<dl class="docutils">
-<dt>write_back <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd>If True, write back to python after simulation. (Default True)</dd>
-</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The id tag of the sensor</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>body_id</strong> (<em>int</em>) – The id tag of the specified body</li>
+<li><strong>write_back</strong> (<em>bool</em>) – If True, write back to python after simulation. (Default True)</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The id tag of the sensor</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1079,6 +1094,26 @@ time is longer than the length of the list, the values will be repeated</td>
 </dd></dl>
 
 <dl class="method">
+<dt id="pyrosim.Simulator.set_friction">
+<code class="descname">set_friction</code><span class="sig-paren">(</span><em>mu='Infinite'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_friction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_friction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the friction parameter</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><cite>mu</cite> is a single parameter in ODEs more complex friction model.
+In general lower <cite>mu</cite> will create a simulation with less friction.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mu</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Determines how friction is calculated in simulation.
+Higher implies more friction. (Default is ‘infinite’)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyrosim.Simulator.set_gravity">
 <code class="descname">set_gravity</code><span class="sig-paren">(</span><em>x=0</em>, <em>y=0</em>, <em>z=-9.8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrosim.html#Simulator.set_gravity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrosim.Simulator.set_gravity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the gravity for simulation</p>
@@ -1098,7 +1133,7 @@ network controller.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>int</strong> (<em>steps_between_evals</em><em>,</em>) – a update_network value of 1 means the network is updated every
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>steps_between_evals</strong> (<em>int</em>) – a update_network value of 1 means the network is updated every
 simulation step, a value of 10 means the network updates
 every 10 eval steps.</td>
 </tr>
@@ -1136,7 +1171,7 @@ in order for the simulation to run properly.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="examples/00_basic.html" class="btn btn-neutral" title="Simulator Settings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advanced.html" class="btn btn-neutral" title="Advanced Options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -7,6 +7,7 @@ SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = pyrosim
 SOURCEDIR     = src
 BUILDDIR      = _build
+BUILDDIRS     = advanced examples
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -19,6 +20,10 @@ help:
 
 html: Makefile
 	@$(SPHINXBUILD) -b html "$(SOURCEDIR)" .
+
+clean: 
+	rm -rf *.html
+	rm -rf $(BUILDDIRS)
 
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)"

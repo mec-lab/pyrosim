@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="../_static/icon32-scaled.ico"/>
+  
   
   
 
@@ -28,7 +30,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Code Documentation" href="../code.html" />
+    <link rel="next" title="Bodies" href="01_bodies.html" />
     <link rel="prev" title="Getting Started" href="../overview.html" /> 
 
   
@@ -84,10 +86,16 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../overview.html">Getting Started</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Simulator Settings</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#empty-simulator">Empty Simulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adjusting-parameters">Adjusting Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-simulations">Multiple Simulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#useful-keyboard-commands">Useful Keyboard Commands</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="01_bodies.html">Bodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_joints.html">Joints</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
 </ul>
 
@@ -175,11 +183,85 @@
 </pre></div>
 </div>
 </div>
-<p>This should cause a graphics window to pop up showing the simulated world before closing itself down after 100 time steps (1 second of simulated time, roughly 1 second of real time).</p>
+<p>This should cause a graphics window to pop up showing the simulated world before closing itself down after a default 100 time steps (1 second of simulated time, roughly 1 second of real time).</p>
 <div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="../_images/empty.png"><img alt="../_images/empty.png" src="../_images/empty.png" style="width: 75%;" /></a>
 <p class="caption"><span class="caption-text">Screenshot of the empty simulator. The camera defaults pointing into the <em>+y</em> direction with <em>+x</em> to the right and <em>+z</em> up.</span></p>
 </div>
+</div>
+<div class="section" id="adjusting-parameters">
+<h2>Adjusting Parameters<a class="headerlink" href="#adjusting-parameters" title="Permalink to this headline">¶</a></h2>
+<p>There are several parameters which can be modified during the initilization of <code class="docutils literal notranslate"><span class="pre">Simulator</span></code>.
+The most important to users will be</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">eval_steps</span></code> : how many simulation steps are taken before closing (use -1 for endless simulation)</li>
+<li><code class="docutils literal notranslate"><span class="pre">dt</span></code> : the amount of time between simulation steps. Lower <cite>dt</cite> values lead to more stable, but longer, simulations</li>
+<li><code class="docutils literal notranslate"><span class="pre">play_blind</span></code> : Allows for headless running of simulation (no graphics).</li>
+<li><code class="docutils literal notranslate"><span class="pre">play_paused</span></code> : Allows simulation to start paused.</li>
+</ul>
+</div>
+<div class="section" id="multiple-simulations">
+<h2>Multiple Simulations<a class="headerlink" href="#multiple-simulations" title="Permalink to this headline">¶</a></h2>
+<p>Because pyrosim uses subprocess, each simulation which is started is independent of others.
+This allows for easy parallelization through using batches.
+The following example compares runing serially vs. batching.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">demos/docs/settings/01_multiple.py</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyrosim</span>
+<span class="kn">import</span> <span class="nn">time</span> <span class="c1"># for timing purposes</span>
+
+<span class="n">n_simulators</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">eval_steps</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="c1"># serial running of simulators</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span> <span class="n">n_simulators</span> <span class="p">):</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">pyrosim</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span> <span class="n">play_blind</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                             <span class="n">eval_steps</span> <span class="o">=</span> <span class="n">eval_steps</span><span class="p">,</span>
+                             <span class="n">play_paused</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">)</span>
+
+    <span class="n">sim</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">wait_to_finish</span><span class="p">()</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span> <span class="s1">&#39;Serial running took&#39;</span><span class="p">,</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span> <span class="s1">&#39;seconds&#39;</span> <span class="p">)</span>
+
+<span class="c1"># batch running of simulators</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">sims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_simulators</span>
+<span class="c1"># initialize simulators as batch</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span> <span class="n">n_simulators</span> <span class="p">):</span>
+    <span class="n">sims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyrosim</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span> <span class="n">play_blind</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">eval_steps</span> <span class="o">=</span> <span class="n">eval_steps</span><span class="p">,</span>
+                                 <span class="n">play_paused</span> <span class="o">=</span> <span class="kc">False</span> <span class="p">)</span>
+    <span class="n">sims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># wait for simulators to finish</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span> <span class="n">n_simulators</span> <span class="p">):</span>
+    <span class="n">sims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">wait_to_finish</span><span class="p">()</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span> <span class="s1">&#39;Batch running took&#39;</span><span class="p">,</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span> <span class="s1">&#39;seconds&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Serial running took <span class="m">0</span>.16266107559204102 seconds
+Batch running took <span class="m">0</span>.042613983154296875 seconds
+</pre></div>
+</div>
+<p>The output may vary depending on your computer’s specifications.</p>
+</div>
+<div class="section" id="useful-keyboard-commands">
+<h2>Useful Keyboard Commands<a class="headerlink" href="#useful-keyboard-commands" title="Permalink to this headline">¶</a></h2>
+<p>The following commands are useful to use if you are running a heads up display of your simulation.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">ctrl-p</span></code>          : toggle pause/unpause</li>
+<li><code class="docutils literal notranslate"><span class="pre">x</span></code> or <code class="docutils literal notranslate"><span class="pre">ctrl-x</span></code> : exit</li>
+<li><code class="docutils literal notranslate"><span class="pre">d</span></code>               : toggle draw joints</li>
+<li><code class="docutils literal notranslate"><span class="pre">s</span></code>               : toggle draw subspaces</li>
+<li><code class="docutils literal notranslate"><span class="pre">ctrl-t</span></code>          : toggle draw textures</li>
+</ul>
 </div>
 </div>
 
@@ -191,7 +273,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../code.html" class="btn btn-neutral float-right" title="Code Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="01_bodies.html" class="btn btn-neutral float-right" title="Bodies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../overview.html" class="btn btn-neutral" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

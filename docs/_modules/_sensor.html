@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="../_static/icon32-scaled.ico"/>
+  
   
   
 
@@ -80,6 +82,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
 </ul>
 
@@ -146,15 +149,28 @@
   <h1>Source code for _sensor</h1><div class="highlight"><pre>
 <span></span>
 <span class="k">class</span> <span class="nc">Mixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="nf">_send_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_entity</span><span class="p">(</span><span class="s1">&#39;Sensor&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">send_distance_to_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body1_id</span><span class="p">,</span> <span class="n">body2_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a distance sensor which measures the distance between body1 and body2</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body1_id</span><span class="p">,</span> <span class="s1">&#39;body1_id&#39;</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_body</span><span class="p">(</span> <span class="n">body2_id</span><span class="p">,</span> <span class="s1">&#39;body2_id&#39;</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_sensor</span><span class="p">(</span> <span class="s1">&#39;DistanceToSensor&#39;</span><span class="p">,</span> <span class="n">body1_id</span><span class="p">,</span> <span class="n">body2_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span> <span class="n">write_back</span> <span class="p">))</span>
+
     <span class="c1"># ------- LIGHT SENSOR ---------------------</span>
-    <span class="k">def</span> <span class="nf">send_light_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send_light_sensor</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">body_id</span><span class="p">,</span> <span class="n">write_back</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Send a light sensor embedded within a body</span>
 
 <span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 <span class="sd">        body_id     : int</span>
 <span class="sd">            The id tag of the specified body</span>
 <span class="sd">        write_back  : bool</span>

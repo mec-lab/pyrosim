@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Advanced Options &mdash; pyrosim 0.1.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/icon32-scaled.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Code Documentation" href="code.html" />
+    <link rel="prev" title="Joints" href="examples/02_joints.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyrosim
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#core-concepts">Core Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#entities">Entities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Code Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyrosim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Advanced Options</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/advanced.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="advanced-options">
+<span id="overview"></span><h1>Advanced Options<a class="headerlink" href="#advanced-options" title="Permalink to this headline">¶</a></h1>
+<p>Pyrosim is intended to be a starting off point for people interested in the easy simulation of neurally controlled robots.
+A user may reach a point where they want to extend pyrosim for their personal use.
+This section will hopefully provide a good foundation on the structure of pyrosim.</p>
+<div class="section" id="core-concepts">
+<h2>Core Concepts<a class="headerlink" href="#core-concepts" title="Permalink to this headline">¶</a></h2>
+<p>Pyrosim works by using the python subprocess module to send strings through stdin to a C++ executable which is running the actual simulation.
+When the python side is finished sending commands to the C++ side, the C++ side starts the actual physics simulation.
+After simulation is complete, the C++ side then returns sensor data back through stdout and error/debug output through stderr to the python side.
+The user can then read the sensor data and debug output as seen previously.</p>
+<p>There are two main types of objects which are sent into the C++ side: <a class="reference internal" href="#parameters">Parameters</a> and <a class="reference internal" href="#entities">Entities</a>.</p>
+</div>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>Parameters are options which alter simulation, gravity, camera position, etc.
+On the python side, the send commands are located in the main <em>pyrosim.py</em> file and have the form <code class="docutils literal notranslate"><span class="pre">set_x(*args)</span></code> where <code class="docutils literal notranslate"><span class="pre">x</span></code> is whatever parameter is to be set by the user.
+For example, <code class="docutils literal notranslate"><span class="pre">set_gravity(x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code> would set the gravity parameters in the simulation.
+Parameters should be sent to the simulator using <code class="docutils literal notranslate"><span class="pre">self._send_parameter(</span> <span class="pre">str,</span> <span class="pre">val</span> <span class="pre">)</span></code> where <code class="docutils literal notranslate"><span class="pre">str</span></code> is the key and <code class="docutils literal notranslate"><span class="pre">val</span></code> is the actual value to be stored in the map.</p>
+<p>On the C++ side, parameters are handled in a single map called <code class="docutils literal notranslate"><span class="pre">parameters</span></code> located in <em>simulator.cpp</em>.
+It is a map which takes a string key value and stores a float value.
+Currently, the way it is set up, only float values can be stored.
+If you need to use a non-float parameter, it must be type cast at the point of use.
+Further, if the parameter is a vector or array, it must be split into different key values in the map.</p>
+<p>In order to create a new parameter, you must create a <code class="docutils literal notranslate"><span class="pre">set</span></code> command in python and an matching initialization in C++.
+Below is the complete example of <code class="docutils literal notranslate"><span class="pre">set_gravity</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">pyrosim/pyrosim.py</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">set_gravity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=-</span><span class="mf">9.8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the gravity for simulation&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityX&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityY&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_send_parameter</span><span class="p">(</span><span class="s1">&#39;GravityZ&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">pyrosim/simulator/src/simulator.cpp</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">initializeParameters</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+    <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;GravityX&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+    <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;GravityY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+    <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;GravityZ&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">9.8f</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<p>The string values sent by the <code class="docutils literal notranslate"><span class="pre">self._send_parameter(str,</span> <span class="pre">val)</span></code> must match the string used in map by C++.
+Now the gravity parameters can be used to set the gravity in simulation</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">pyrosim/simulator/src/simulator.cpp</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">createEnvironment</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+    <span class="c1">// set gravity</span>
+    <span class="n">dWorldSetGravity</span><span class="p">(</span><span class="n">world</span><span class="p">,</span>
+                     <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;GravityX&quot;</span><span class="p">],</span>
+                     <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;GravityY&quot;</span><span class="p">],</span>
+                     <span class="n">parameters</span><span class="p">[</span><span class="s">&quot;GravityZ&quot;</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="entities">
+<h2>Entities<a class="headerlink" href="#entities" title="Permalink to this headline">¶</a></h2>
+<p>Entities are the main components of simulation.
+There are currently six types of entities in pyrosim.</p>
+<ul class="simple">
+<li>Bodies</li>
+<li>Joints</li>
+<li>Actuators</li>
+<li>Sensors</li>
+<li>Neurons</li>
+<li>Synapses</li>
+</ul>
+<p>On the python side, entities are organized using <a class="reference external" href="http://www.martinbroadhurst.com/mixins-in-python.html">mixin classes</a> allowing for better organization by seperating entity relevant code in specific python files.
+For example, all python code regarding sensors is in <em>pyrosim/_sensor.py</em>
+Each entity is sent to the C++ side using <code class="docutils literal notranslate"><span class="pre">send_x(</span> <span class="pre">*args</span> <span class="pre">)</span></code> where <code class="docutils literal notranslate"><span class="pre">x</span></code> is the name of the entity, e.g. <cite>sensor</cite>.</p>
+<p>On the C++ side, Each entity type is a sub-class of the entity base class and each specific variation of an entity should be its own sub-class.
+For example, the touch sensor has its own sub-class.
+The entity base class is contained within <em>pyrosim/simulator/src/entity.hpp</em>.
+It has a few standard basic methods used by all entities.</p>
+<p>The <cite>takeStep</cite> method is what ultimately differentiates the entities.
+This is the method in which actuators will act, sensors will sense, the network will update etc.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="code.html" class="btn btn-neutral float-right" title="Code Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples/02_joints.html" class="btn btn-neutral" title="Joints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Collin Cappelle, Josh Bongard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
