@@ -56,7 +56,7 @@ StringToEntity stringToEntityMap{
     {"RaySensor",            &createEntityInstance<RaySensor>            }, // Ray sensor
     {"TouchSensor",          &createEntityInstance<TouchSensor>          }, // Touch sensor
     {"ProprioceptiveSensor", &createEntityInstance<ProprioceptiveSensor> }, // Proprioceptive sensor
-    {"quaternionSensor",     &createEntityInstance<QuaternionSensor>     }, // vestibular sensor returning quaternion
+    {"QuaternionSensor",     &createEntityInstance<QuaternionSensor>     }, // vestibular sensor returning quaternion
 };
 
 Environment::Environment(dWorldID world, dSpaceID topspace, int numEntities){
