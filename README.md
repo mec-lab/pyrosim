@@ -10,7 +10,7 @@ Cite : [BibTex](./pyrosim-bibtex.bib)
 
 ## Installation instructions.
 
-  Download or clone the GitHub [repository](https://github.com/ccappelle/pyrosim).
+  Download or clone the GitHub [repository](https://github.com/mec-lab/pyrosim).
 
   If you downloaded the zipped version, unzip the directory somewhere you can access it.
   Make sure the directory path does not have any spaces in any of the folders.
