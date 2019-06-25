@@ -10,7 +10,7 @@ sim.send_hinge_joint( -1, cyl,
                      anchor= (0, 0, 2 ),
                      axis=( 0, 1, 0) )
 
-thruster = sim.send_truster(cyl,
+thruster = sim.send_thruster(cyl,
                             force_range=(5, 5))
 
 sim.start()
