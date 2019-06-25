@@ -163,7 +163,7 @@ class Mixin(object):
         """
         if   which_sense == 'a' or which_sense == 'w':
             which_sense = 0
-        elif which_sense == 'd' or which_sense == 'x':
+        elif which_sense == 'b' or which_sense == 'x':
             which_sense = 1
         elif which_sense == 'c' or which_sense == 'y':
             which_sense = 2
